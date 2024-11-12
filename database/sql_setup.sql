@@ -18,13 +18,15 @@ CREATE TABLE users (
 -- Cars Table
 CREATE TABLE cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    make VARCHAR(50) NOT NULL,
-    model VARCHAR(50) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    brand VARCHAR(50),
+    model VARCHAR(50),
     year INT,
-    price_per_day DECIMAL(10, 2),
-    luxury BOOLEAN DEFAULT 0,  -- 0 for regular, 1 for luxury
-    available BOOLEAN DEFAULT 1
+    price DECIMAL(10, 2),
+    location VARCHAR(100),
+    availability BOOLEAN DEFAULT TRUE
 );
+
 
 -- Rentals Table
 CREATE TABLE rentals (

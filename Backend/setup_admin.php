@@ -12,7 +12,7 @@ try {
     if (!$exists) {
         // Insert default admin account with hashed password
         $adminUsername = 'admin';
-        $adminPassword = password_hash('password123', PASSWORD_DEFAULT); // Replace 'password123' with a secure password
+        $adminPassword = password_hash('12345', PASSWORD_DEFAULT); // Replace 'password123' with a secure password
         $insertAdmin = "INSERT INTO admin (username, password) VALUES (:username, :password)";
         $stmt = $conn->prepare($insertAdmin);
         $stmt->execute(['username' => $adminUsername, 'password' => $adminPassword]);

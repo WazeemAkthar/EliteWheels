@@ -1,0 +1,28 @@
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+
+        fetch('login.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Login successful');
+                // Redirect based on role
+                if (data.role === 'admin') {
+                    window.location.href = 'admin/dashboard.html';
+                } else if (data.role === 'staff') {
+                    window.location.href = 'staff/staff-dashboard.html';
+                } else if (data.role === 'customer') {
+                    window.location.href = 'homepage.html';
+                }
+            } else {
+                alert('Login failed');
+            }
+        });
+    });
+</script>
