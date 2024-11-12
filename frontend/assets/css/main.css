@@ -1,0 +1,290 @@
+/* General Theme */
+body {
+  font-family: Arial, sans-serif;
+  /* background-color: #1b2a49; Dark blue background */
+  color: white;
+  margin: 0;
+}
+
+.header {
+  padding: 10px;
+  background-color: #0e1a35; /* Darker shade for header */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo */
+.logo a {
+  color: #00bfff;
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* General Navbar Styles */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #0a1f44;
+  color: #fff;
+}
+
+.navbar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+.navbar .nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 5px;
+  padding: 10px 15px;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar .nav-links li a:hover {
+  color: #0e1a35;
+  background-color: #00bfff;
+  border-radius: 5px;
+  transition: color 0.3s;
+}
+
+/* Hamburger Button */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .nav-links {
+    list-style: none;
+    position: fixed;
+    top: 10px;
+    right: -110%; /* Start off-screen to the right */
+    height: 100%;
+    width: 100%;
+    background-color: #0a2239;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.5s ease; /* Transition for sliding effect */
+    z-index: 10;
+  }
+
+  .nav-links.show {
+    right: 0; /* Slide into view */
+  }
+
+  .nav-links.hide {
+    right: -110%; /* Slide out of view */
+  }
+
+  /* Hamburger and Close Icons */
+  .hamburger-icon,
+  .close-icon {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  /* Hide close icon initially */
+  .close-icon {
+    display: none;
+  }
+
+  /* Styling each link */
+  .nav-links li {
+    margin: 15px 0;
+  }
+
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+  }
+}
+
+/* Hover effect */
+.nav-links a:hover {
+  color: #0e1a35;
+  background-color: #00bfff;
+  border-radius: 5px;
+}
+
+/* Special Style for Luxury Cars Button */
+.luxury-btn {
+  background-color: #f39c12; /* Luxury button color (gold) */
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.navbar .nav-links .luxury-btn:hover {
+  background-color: #d35400;
+  color: white;
+  transform: scale(1.05);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  color: #00bfff;
+}
+
+/* Gallery Section */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.gallery .car-image img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.gallery .car-image.oval img {
+  border-radius: 50% 25%;
+}
+
+.gallery .car-image.circle img {
+  border-radius: 50%;
+}
+
+.gallery .car-image.hexagon img {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.gallery .car-image.rectangle img {
+  border-radius: 10px;
+}
+
+.gallery .car-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Carousel Styling */
+.hero-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px; /* Rounded corners */
+  /* min-width: 600px; */
+  margin: 0 auto;
+}
+
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 10px; /* Adjust border radius for rounded corners */
+}
+
+.carousel-images {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-image {
+  position: relative;
+  min-width: 100%;
+  margin-right: 10px; /* Add space between images */
+}
+
+video {
+  width: calc(100% - 20px); /* Adjust width to maintain gap between images */
+  height: 550px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Text Overlay Styling */
+.carousel-text {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background-color: rgba(0, 0, 0, 0.6); /* Black with transparency */
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 70%;
+  text-align: left;
+}
+
+.carousel-text h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.carousel-text p {
+  margin: 5px 0 0;
+  font-size: 0.9rem;
+}
+
+/* Carousel Button Styling */
+.carousel-btn:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Light background with slight transparency */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #000;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Position buttons at the edges, with only half visible */
+.prev-btn {
+  left: 0px; /* Half of the button outside the carousel */
+}
+
+.next-btn {
+  right: 0px; /* Half of the button outside the carousel */
+}
