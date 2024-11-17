@@ -286,7 +286,7 @@
       <div class="feature">
         <img src="./assets/icons/booking.png" alt="Convenient Booking">
         <h3>Convenient Booking</h3>
-        <p>Book your car easily online with a few clicks.</p>
+        <p>Book your car easily online with a few clicks. jhdsv sdvh dsvh  jvfi</p>
       </div>
     </div>
   </section>
