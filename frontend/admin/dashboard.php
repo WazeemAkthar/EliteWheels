@@ -18,7 +18,7 @@
     <!-- Main Content -->
     <main class="main-content">
       <header class="content-header">
-        <h1>Dashboard</h1>
+        <!-- <h1>Dashboard</h1> -->
       </header>
       <section class="cards">
         <div class="card blue">
