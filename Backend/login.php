@@ -1,24 +1,44 @@
 <?php
-// Database connection (replace with your connection details)
-$conn = new mysqli("localhost", "username", "password", "database");
+header('Content-Type: application/json');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+// Database credentials
+$host = 'localhost';
+$dbname = 'car_rental_system';
+$username = 'root';
+$password = '';
 
-    // Prepare the SQL statement to avoid SQL injection
-    $stmt = $conn->prepare("SELECT role FROM users WHERE username = ? AND password = ?");
-    $stmt->bind_param("ss", $username, $password);
-    $stmt->execute();
-    $stmt->bind_result($role);
-    $stmt->fetch();
-    $stmt->close();
+// Connect to the database
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check if role exists and send appropriate response
-    if ($role) {
-        echo json_encode(['status' => 'success', 'role' => $role]);
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid credentials']);
-    }
+// Check connection
+if ($conn->connect_error) {
+    die(json_encode(["status" => "error", "message" => "Database connection failed"]));
 }
+
+// Get the POST data
+$user = $_POST['username'];
+$pass = $_POST['password'];
+
+// Sanitize input
+$user = $conn->real_escape_string($user);
+$pass = $conn->real_escape_string($pass);
+
+// Query to find the user
+$sql = "SELECT role, password FROM users WHERE username = '$user'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+
+    // Verify the password (assuming MD5 encryption)
+    if (md5($pass) === $row['password']) {
+        echo json_encode(["status" => "success", "role" => $row['role']]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Incorrect password"]);
+    }
+} else {
+    echo json_encode(["status" => "error", "message" => "User not found"]);
+}
+
+$conn->close();
 ?>

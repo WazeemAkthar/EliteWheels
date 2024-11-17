@@ -2,165 +2,226 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Car Rental Map</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Mapbox CSS -->
-  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Register Animation with Blur</title>
+  <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<style>
-  /* Basic styling */
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    display: flex;
-  }
-
-  #map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100vh;
-  }
-
-  .sidebar {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 100;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    width: 250px;
-  }
-
-  .sidebar h2 {
-    margin-top: 0;
-  }
-
-  button {
-    width: 100%;
-    padding: 10px;
-    background: #0073e6;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #005bb5;
-  }
-</style>
 
 <body>
+  <style>
+    /* General Styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
 
-  <!-- Map Container -->
-  <div id="map"></div>
+    /* Navigation */
+    .nav {
+      display: flex;
+      justify-content: flex-end;
+      background-color: #0d0d63;
+      padding: 1rem;
+    }
 
-  <!-- Sidebar for Location Filters -->
-  <div class="sidebar">
-    <h2>Find Cars in Your Location</h2>
-    <select id="locationFilter">
-      <option value="">Select Location</option>
-      <option value="New York">New York</option>
-      <option value="Los Angeles">Los Angeles</option>
-      <option value="colombo">colombo</option>
-      <!-- Add other locations -->
-    </select>
-    <button onclick="filterCarsByLocation()">Find Cars</button>
+    .nav li {
+      list-style: none;
+    }
+
+    .nav a {
+      color: #ffcd3c;
+      text-decoration: none;
+      margin-right: 1rem;
+      font-weight: bold;
+    }
+
+    .nav a:hover {
+      color: #d4a514;
+    }
+
+    /* Page Content Blur */
+    #pageContent {
+      transition: filter 0.5s ease;
+    }
+
+    #pageContent.blurred {
+      filter: blur(8px);
+      /* Apply blur */
+      pointer-events: none;
+      /* Disable interactions with blurred content */
+    }
+
+    /* Login and Register Sections */
+    .login-section,
+    .register-section {
+      position: fixed;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      background: rgba(13, 13, 99, 0.9);
+      /* Semi-transparent dark blue */
+      color: #fff;
+      padding: 2rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      transition: top 0.5s ease, opacity 0.5s ease;
+      z-index: 1000;
+    }
+
+    .login-section.hidden,
+    .register-section.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .login-section.visible,
+    .register-section.visible {
+      top: 10%;
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .login-section form,
+    .register-section form {
+      max-width: 400px;
+      margin: 0 auto;
+      background: #fff;
+      color: #000;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .login-section form input,
+    .register-section form input {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .login-section form button,
+    .register-section form button {
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(45deg, #d4a514, #ffcd3c);
+      /* Gold gradient */
+      border: none;
+      border-radius: 5px;
+      color: #0d0d63;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+
+    .login-section form button:hover,
+    .register-section form button:hover {
+      background: linear-gradient(45deg, #ffcd3c, #d4a514);
+    }
+  </style>
+
+  <div id="pageContent">
+    <!-- Navigation -->
+    <ul class="nav">
+      <li><a href="#" id="loginTrigger">Login</a></li>
+      <li><a href="#" id="registerTrigger">Register</a></li>
+    </ul>
+
+    <!-- Main Content -->
+    <section>
+      <h1>Welcome to EliteWheels</h1>
+      <p>Your trusted luxury car rental service.</p>
+    </section>
   </div>
 
-  <!-- Mapbox and Custom JS -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+  <!-- Login Section -->
+  <div id="loginSection" class="login-section hidden">
+    <form id="loginForm">
+      <h2>Login</h2>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <button type="button" id="closeLogin">Close</button>
+    </form>
+  </div>
+
+  <!-- Register Section -->
+  <div id="registerSection" class="register-section hidden">
+    <form id="registerForm">
+      <h2>Register</h2>
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+      <button type="submit">Register</button>
+      
+      <button type="button" id="closeRegister">Close</button>
+    </form>
+  </div>
+
   <script>
-    // map.js
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginTrigger = document.getElementById("loginTrigger");
+      const loginSection = document.getElementById("loginSection");
+      const closeLogin = document.getElementById("closeLogin");
 
-    // Mapbox Access Token
-    mapboxgl.accessToken =
-      "pk.eyJ1Ijoid2F6ZWVtYWt0aGFyIiwiYSI6ImNtMnpzZGsxazBieG8yeHNqeHoyYXNrdWgifQ.jANxKxTtw-XnD7F7WsUcag";
+      const registerTrigger = document.getElementById("registerTrigger");
+      const registerSection = document.getElementById("registerSection");
+      const closeRegister = document.getElementById("closeRegister");
 
-    // Initialize the Map
-    const map = new mapboxgl.Map({
-      container: "map", // container ID
-      style: "mapbox://styles/mapbox/streets-v11", // Map style
-      center: [79.861244, 6.927079], // Starting position [lng, lat]
-      zoom: 10, // Starting zoom
+      const pageContent = document.getElementById("pageContent");
+
+      const goToRegister = document.getElementById("goToRegister");
+      const goToLogin = document.getElementById("goToLogin");
+
+      // Show login form
+      loginTrigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginSection.classList.remove("hidden");
+        loginSection.classList.add("visible");
+        pageContent.classList.add("blurred");
+      });
+
+      // Close login form
+      closeLogin.addEventListener("click", () => {
+        loginSection.classList.remove("visible");
+        loginSection.classList.add("hidden");
+        pageContent.classList.remove("blurred");
+      });
+
+      // Show register form
+      registerTrigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        registerSection.classList.remove("hidden");
+        registerSection.classList.add("visible");
+        pageContent.classList.add("blurred");
+      });
+
+      // Close register form
+      closeRegister.addEventListener("click", () => {
+        registerSection.classList.remove("visible");
+        registerSection.classList.add("hidden");
+        pageContent.classList.remove("blurred");
+      });
+
+      // Switch from Login to Register
+      goToRegister.addEventListener("click", (e) => {
+        e.preventDefault();
+        loginSection.classList.remove("visible");
+        loginSection.classList.add("hidden");
+        registerSection.classList.remove("hidden");
+        registerSection.classList.add("visible");
+      });
+
+      // Switch from Register to Login
+      goToLogin.addEventListener("click", (e) => {
+        e.preventDefault();
+        registerSection.classList.remove("visible");
+        registerSection.classList.add("hidden");
+        loginSection.classList.remove("hidden");
+        loginSection.classList.add("visible");
+      });
     });
 
-    // Sample Data - Replace this with data from your backend
-    const cars = [
-      {
-        id: 1,
-        name: "Car A",
-        location_name: "New York",
-        latitude: 40.7128,
-        longitude: -74.006,
-        availability: true,
-      },
-      {
-        id: 2,
-        name: "Car B",
-        location_name: "Los Angeles",
-        latitude: 34.0522,
-        longitude: -118.2437,
-        availability: true,
-      },
-      {
-        id: 3,
-        name: "Car c",
-        location_name: "colombo",
-        latitude: 6.927079,
-        longitude: 79.861244,
-        availability: true,
-      },
-      // Add more car data as needed
-    ];
-
-    // Function to Add Car Markers to the Map
-    function addCarMarkers(filteredCars) {
-      // Remove existing markers before adding new ones
-      document
-        .querySelectorAll(".mapboxgl-marker")
-        .forEach((marker) => marker.remove());
-
-      filteredCars.forEach((car) => {
-        new mapboxgl.Marker()
-          .setLngLat([car.longitude, car.latitude])
-          .setPopup(
-            new mapboxgl.Popup().setHTML(
-              `<h4>${car.name}</h4><p>${car.location_name}</p>`
-            )
-          ) // Optional: Add pop-up info
-          .addTo(map);
-      });
-    }
-
-    // Initial Load - Show All Cars
-    addCarMarkers(cars);
-
-    // Filter Cars by Selected Location
-    function filterCarsByLocation() {
-      const selectedLocation =
-        document.getElementById("locationFilter").value;
-      const filteredCars = selectedLocation
-        ? cars.filter((car) => car.location_name === selectedLocation)
-        : cars;
-
-      addCarMarkers(filteredCars);
-
-      // Optional: Center map on the first filtered car
-      if (filteredCars.length > 0) {
-        map.flyTo({
-          center: [filteredCars[0].longitude, filteredCars[0].latitude],
-          essential: true, // Ensures the animation is supported on all devices
-          zoom: 12,
-        });
-      }
-    }
   </script>
 </body>
 

@@ -154,31 +154,36 @@
           e.preventDefault();
 
           const formData = new FormData(this);
-          const errorMessage = document.getElementById("errorMessage");
 
-          fetch("login.php", {
+          fetch("./Backend/login.php", {
             method: "POST",
             body: formData,
           })
-            .then((response) => response.json())
+            .then((response) => response.text()) // Change to .text() to inspect the raw response
             .then((data) => {
-              if (data.status === "success") {
-                // Redirect based on role
-                if (data.role === "admin") {
-                  window.location.href = "admin/dashboard.html";
-                } else if (data.role === "staff") {
-                  window.location.href = "staff/staff-dashboard.html";
-                } else if (data.role === "customer") {
-                  window.location.href = "homepage.html";
+              console.log(data); // Log the response to see if it’s valid JSON
+              try {
+                const jsonData = JSON.parse(data); // Attempt to parse JSON
+                if (jsonData.status === "success") {
+                  alert("Login successful");
+                  if (jsonData.role === "admin") {
+                    window.location.href = "admin/dashboard.html";
+                  } else if (jsonData.role === "staff") {
+                    window.location.href = "staff/staff-dashboard.html";
+                  } else if (jsonData.role === "customer") {
+                    window.location.href = "homepage.html";
+                  }
+                } else {
+                  alert("Login failed");
                 }
-              } else {
-                errorMessage.textContent =
-                  "Login failed. Please check your username and password.";
+              } catch (error) {
+                console.error("Error parsing JSON:", error);
+                alert("An error occurred. Please try again.");
               }
             })
             .catch((error) => {
               console.error("Error:", error);
-              errorMessage.textContent = "An error occurred. Please try again.";
+              alert("Network error or invalid response from server.");
             });
         });
 

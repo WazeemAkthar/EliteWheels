@@ -1,19 +1,16 @@
 -- admin Table
-CREATE TABLE admin (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
-);
-
-
--- Users Table
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role ENUM('admin', 'staff', 'customer') NOT NULL
 );
+
+INSERT INTO users (username, password, role) VALUES
+('admin_user', MD5('12345'), 'admin'),
+('staff_user', MD5('staff123'), 'staff'),
+('customer_user', MD5('customer123'), 'customer');
+
 
 -- Cars Table
 CREATE TABLE cars (
