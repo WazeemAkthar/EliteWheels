@@ -170,7 +170,8 @@
   <!-- Navigation Bar -->
   <header class="header">
     <nav class="navbar">
-      <div class="logo"><a href="#"><img src="./assets/images/logo.png" alt="logo" style="width: 100px; height: 50px;"></a></div>
+      <div class="logo"><a href="#"><img src="./assets/images/logo.png" alt="logo"
+            style="width: 100px; height: 50px;"></a></div>
       <ul class="nav-links" id="nav-links">
         <li><a href="#home">Home</a></li>
         <li><a href="#">Rent a Car</a></li>
