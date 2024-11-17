@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EliteWheels - Book a Car</title>
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
+    />
+    <link rel="stylesheet" href="./assets/css/booking.css" />
+  </head>
+  <style>
+    /* Booking Page Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(
+        to bottom right,
+        #0d0d63,
+        #1c1c3d
+      ); /* Dark blue gradient background */
+      color: #fff;
+    }
+
+    .booking-form {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: rgba(13, 13, 99, 0.8); /* Dark blue transparent overlay */
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .booking-form h2 {
+      text-align: center;
+      color: #ffcd3c;
+      font-size: 2em;
+      margin-bottom: 1.5rem;
+    }
+
+    .booking-form label {
+      font-size: 1em;
+      color: #fff;
+    }
+
+    .booking-form input,
+    .booking-form select {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    /* Gold Gradient Button */
+    .booking-form button {
+      width: 100%;
+      padding: 0.8rem;
+      margin-top: 1rem;
+      background: linear-gradient(45deg, #d4a514, #ffcd3c); /* Gold gradient */
+      color: #0d0d63;
+      font-size: 1.2em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .booking-form button:hover {
+      background: linear-gradient(45deg, #ffcd3c, #d4a514);
+    }
+    #map {
+      width: 100%;
+      height: 400px;
+      border: 2px solid #ffcd3c;
+      border-radius: 10px;
+    }
+
+    #location-input {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      color: #0d0d63;
+    }
+
+    #current-location-btn {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      background: linear-gradient(45deg, #d4a514, #ffcd3c); /* Gold gradient */
+      color: #0d0d63;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    #current-location-btn:hover {
+      background: linear-gradient(45deg, #ffcd3c, #d4a514);
+    }
+  </style>
+  <body>
+    <!-- Booking Form Section -->
+    <section class="booking-form">
+      <h2>Book Your Ride</h2>
+      <form action="booking_process.php" method="POST">
+        <label for="carType">Car Type</label>
+        <select id="carType" name="carType" required>
+          <option value="sedan">Sedan</option>
+          <option value="suv">SUV</option>
+          <option value="luxury">Luxury</option>
+        </select>
+
+        <label for="pickupDate">Pickup Date</label>
+        <input type="date" id="pickupDate" name="pickupDate" required />
+
+        <label for="returnDate">Return Date</label>
+        <input type="date" id="returnDate" name="returnDate" required />
+
+        <label for="pickupLocation">Pickup Location</label>
+        <input
+          type="text"
+          id="location-input"
+          placeholder="Choose your location"
+          readonly
+        />
+        <button type="button" id="current-location-btn">
+          Use Current Location
+        </button>
+
+        <div
+          id="map"
+          style="width: 100%; height: 400px; margin-top: 1rem"
+        ></div>
+
+        <button type="submit">Book Now</button>
+      </form>
+    </section>
+    <script src="./login.php"></script>
+    <script>
+      // Initialize Mapbox
+      mapboxgl.accessToken = "YOUR_MAPBOX_ACCESS_TOKEN";
+
+      const map = new mapboxgl.Map({
+        container: "map", // Container ID
+        style: "mapbox://styles/mapbox/streets-v11", // Map style
+        center: [79.8612, 6.9271], // Default center position (e.g., Colombo, Sri Lanka)
+        zoom: 10,
+      });
+
+      // Add a draggable marker to the map
+      const marker = new mapboxgl.Marker({ draggable: true })
+        .setLngLat([79.8612, 6.9271])
+        .addTo(map);
+
+      // Update input field with marker position
+      function updateLocationInput(lng, lat) {
+        document.getElementById("location-input").value = `Lng: ${lng.toFixed(
+          6
+        )}, Lat: ${lat.toFixed(6)}`;
+      }
+
+      // Set initial input field value
+      updateLocationInput(79.8612, 6.9271);
+
+      // Event listener for marker drag end
+      marker.on("dragend", () => {
+        const lngLat = marker.getLngLat();
+        updateLocationInput(lngLat.lng, lngLat.lat);
+      });
+
+      // Get user's current location
+      document
+        .getElementById("current-location-btn")
+        .addEventListener("click", () => {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const userLocation = [
+                  position.coords.longitude,
+                  position.coords.latitude,
+                ];
+                map.setCenter(userLocation);
+                marker.setLngLat(userLocation);
+                updateLocationInput(userLocation[0], userLocation[1]);
+              },
+              () => {
+                alert("Unable to retrieve your location.");
+              }
+            );
+          } else {
+            alert("Geolocation is not supported by your browser.");
+          }
+        });
+    </script>
+  </body>
+</html>

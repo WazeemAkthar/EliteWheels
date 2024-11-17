@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <style>
+    /* login.css */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f2f2f2;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 400px;
+      background: #ffffff;
+      padding: 40px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .logo {
+      width: 100px;
+      height: 50px;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333333;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #ffc107, #ff9800);
+      color: #ffffff;
+      font-size: 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(45deg, #ff9800, #ffc107);
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .password-group {
+      display: flex;
+      align-items: center;
+    }
+
+    input[type="password"],
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cccccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      cursor: pointer;
+    }
+
+    .toggle-password img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .toggle-password img:hover {
+      opacity: 0.7;
+    }
+  </style>
+  <body>
+    <div class="login-container">
+      <img src="./assets/images/logo.png" alt="Logo" class="logo" />
+      <h2>Login</h2>
+      <form id="loginForm">
+        <div class="input-group">
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div class="input-group password-group">
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            required
+          />
+          <span id="togglePassword" class="toggle-password">
+            <img
+              src="./assets/icons/eye-closed.png"
+              alt="Show Password"
+              id="eyeIcon"
+            />
+          </span>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+      <p class="error-message" id="errorMessage"></p>
+    </div>
+
+    <script>
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const formData = new FormData(this);
+
+          fetch("./Backend/login.php", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text()) // Change to .text() to inspect the raw response
+            .then((data) => {
+              console.log(data); // Log the response to see if it’s valid JSON
+              try {
+                const jsonData = JSON.parse(data); // Attempt to parse JSON
+                if (jsonData.status === "success") {
+                  alert("Login successful");
+                  if (jsonData.role === "admin") {
+                    window.location.href = "admin/dashboard.html";
+                  } else if (jsonData.role === "staff") {
+                    window.location.href = "staff/staff-dashboard.html";
+                  } else if (jsonData.role === "customer") {
+                    window.location.href = "homepage.html";
+                  }
+                } else {
+                  alert("Login failed");
+                }
+              } catch (error) {
+                console.error("Error parsing JSON:", error);
+                alert("An error occurred. Please try again.");
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              alert("Network error or invalid response from server.");
+            });
+        });
+
+      // Toggle password visibility
+      const passwordInput = document.getElementById("password");
+      const togglePassword = document.getElementById("togglePassword");
+      const eyeIcon = document.getElementById("eyeIcon");
+
+      togglePassword.addEventListener("click", () => {
+        const isPasswordVisible = passwordInput.getAttribute("type") === "text";
+
+        // Toggle password visibility
+        passwordInput.setAttribute(
+          "type",
+          isPasswordVisible ? "password" : "text"
+        );
+
+        // Toggle icon
+        eyeIcon.src = isPasswordVisible
+          ? "./assets/icons/eye-closed.png"
+          : "./assets/icons/eye-open.png";
+      });
+    </script>
+  </body>
+</html>
