@@ -120,26 +120,26 @@
         </div>
       </div>
       <ul class="nav__links" id="nav-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#rent">Rent</a></li>
+        <li><a href="./index.php">Home</a></li>
+        <li><a href="./cars.php">Rent</a></li>
         <li><a href="#ride">Ride</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="#" id="loginTrigger">login</a></li>
         <li><a href="#" id="registerTrigger">Register</a></li>
       </ul>
-      <div class="nav__btn">
+      <!-- <div class="nav__btn">
         <button class="btn">Get Started</button>
-      </div>
+      </div> -->
     </nav>
   </header>
   </div>
 
   <!-- Login Section -->
   <div id="loginSection" class="login-section hidden">
-    <form id="loginForm">
+    <form action="../Backend/login.php" id="loginForm" method="post">
       <h2>Login</h2>
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="password" name="password" placeholder="Password" required>
+      <input type="email" name="email" id="loginEmail" name="loginEmail" required />
+      <input type="password" id="loginPassword" name="loginPassword" required />
       <button type="submit">Login</button>
 
       <button type="button" id="closeLogin">Close</button>
@@ -149,7 +149,7 @@
 
   <!-- Register Section -->
   <div id="registerSection" class="register-section hidden">
-    <form id="registerForm">
+    <form action="../Backend/register.php" id="registerForm">
       <h2>Register</h2>
       <input type="text" name="username" placeholder="Username" required>
       <input type="email" name="email" placeholder="Email" required>

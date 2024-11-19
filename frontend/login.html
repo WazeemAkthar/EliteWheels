@@ -1,211 +1,216 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   </head>
-  <style>
-    /* login.css */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500&display=swap");
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #f2f2f2;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
-    .login-container {
-      width: 100%;
-      max-width: 400px;
-      background: #ffffff;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #295fb3 0%, #7a8eb0 100%);
+}
 
-    .logo {
-      width: 100px;
-      height: 50px;
-      margin-bottom: 20px;
-    }
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
 
-    h2 {
-      margin-bottom: 20px;
-      color: #333333;
-    }
+.login-box {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-    .input-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
+.login-box h2 {
+  margin: 0 0 15px;
+  padding: 0;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+}
 
-    .input-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cccccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
+.user-box {
+  position: relative;
+  margin-bottom: 30px;
+}
 
-    .input-group input:focus {
-      outline: none;
-      border-color: #007bff;
-    }
+.user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  border: none;
+  outline: none;
+  background: transparent;
+}
 
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(45deg, #ffc107, #ff9800);
-      color: #ffffff;
-      font-size: 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  pointer-events: none;
+  transition: 0.5s;
+}
 
-    .login-btn:hover {
-      background: linear-gradient(45deg, #ff9800, #ffc107);
-    }
+.user-box input:focus ~ label,
+.user-box input:valid ~ label {
+  transform: translateY(-20px);
+  font-size: 14px;
+  color: #333;
+}
 
-    .error-message {
-      color: red;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+button {
+  display: inline-block;
+  background: linear-gradient(to right, #a1b72c 0%, #dae797 100%);
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-transform: uppercase;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s;
+  letter-spacing: 2px;
+  border-radius: 5px;
+  width: -webkit-fill-available;
+  border: none !important;
+}
 
-    .input-group {
-      position: relative;
-      margin-bottom: 20px;
-    }
+button:hover {
+  background: linear-gradient(to left, #a1b72c 0%, #dae797 100%);
+  color: #ffffff;
+  cursor: pointer;
+}
 
-    .password-group {
-      display: flex;
-      align-items: center;
-    }
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
 
-    input[type="password"],
-    input[type="text"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #cccccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
+.email-icon{
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+.email-icon i{
+  font-size: 18px;
+  line-height: 1;
+  color: #333;
+}
 
-    .toggle-password {
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      cursor: pointer;
-    }
+.password-toggle-icon i {
+  font-size: 18px;
+  line-height: 1;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
 
-    .toggle-password img {
-      width: 20px;
-      height: 20px;
-    }
+.password-toggle-icon i:hover {
+  color: #000;
+}
+.container form .underline::before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: #ccc;
+  left: 0;
+  bottom: 0;
+}
+.container form .underline::after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(to right, #295fb3 0%, #7a8eb0 100%);
+  left: 0;
+  bottom: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 0.3s ease;
+}
+.container form .user-box input:focus ~ .underline::after,
+.container form .user-box input:valid ~ .underline::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+a {
+  text-decoration: none;
+}
 
-    .toggle-password img:hover {
-      opacity: 0.7;
-    }
-  </style>
-  <body>
-    <div class="login-container">
-      <img src="./assets/images/logo.png" alt="Logo" class="logo" />
-      <h2>Login</h2>
-      <form id="loginForm">
-        <div class="input-group">
-          <input type="text" name="username" placeholder="Username" required />
-        </div>
-        <div class="input-group password-group">
-          <input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-            required
-          />
-          <span id="togglePassword" class="toggle-password">
-            <img
-              src="./assets/icons/eye-closed.png"
-              alt="Show Password"
-              id="eyeIcon"
-            />
-          </span>
-        </div>
-        <button type="submit" class="login-btn">Login</button>
-      </form>
-      <p class="error-message" id="errorMessage"></p>
+</style>
+</head>
+<body>
+<div class="container">
+      <div class="login-box">
+        <h2>Login</h2>
+        <form id="loginForm" action="../Backend/login.php" method="post">
+          <div class="user-box">
+            <input  type="email"
+            id="loginEmail"
+            name="loginEmail"
+            required />
+            <div class="underline"></div>
+            <label>Email</label>
+            <span class="email-icon"><i class="fa fa-envelope"></i></span>
+          </div>
+          <div class="user-box">
+            <input type="password"
+            id="loginPassword"
+            name="loginPassword"
+            required />
+            <div class="underline"></div>
+            <label>Password</label>
+            <span class="password-toggle-icon"><i class="fas fa-eye-slash"></i></span>
+          </div>
+          <button type="submit">
+            Sing in
+          </button>
+         
+        </form>
+        <span>don't have an account? <a href="Register.html"> Sing up here</a></span>
+          </a>
+      </div>
     </div>
+    
+    <script>const passwordField = document.getElementById("loginPassword");
+const togglePassword = document.querySelector(".password-toggle-icon i");
 
-    <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+togglePassword.addEventListener("click", function () {
+  if (passwordField.type === "password") {
+    passwordField.type = "text";
+    togglePassword.classList.remove("fa-eye-slash");
+    togglePassword.classList.add("fa-eye");
+  } else {
+    passwordField.type = "password";
+    togglePassword.classList.remove("fa-eye");
+    togglePassword.classList.add("fa-eye-slash");
+  }
+});
+</script>
 
-          const formData = new FormData(this);
-
-          fetch("./Backend/login.php", {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => response.text()) // Change to .text() to inspect the raw response
-            .then((data) => {
-              console.log(data); // Log the response to see if it’s valid JSON
-              try {
-                const jsonData = JSON.parse(data); // Attempt to parse JSON
-                if (jsonData.status === "success") {
-                  alert("Login successful");
-                  if (jsonData.role === "admin") {
-                    window.location.href = "admin/dashboard.html";
-                  } else if (jsonData.role === "staff") {
-                    window.location.href = "staff/staff-dashboard.html";
-                  } else if (jsonData.role === "customer") {
-                    window.location.href = "homepage.html";
-                  }
-                } else {
-                  alert("Login failed");
-                }
-              } catch (error) {
-                console.error("Error parsing JSON:", error);
-                alert("An error occurred. Please try again.");
-              }
-            })
-            .catch((error) => {
-              console.error("Error:", error);
-              alert("Network error or invalid response from server.");
-            });
-        });
-
-      // Toggle password visibility
-      const passwordInput = document.getElementById("password");
-      const togglePassword = document.getElementById("togglePassword");
-      const eyeIcon = document.getElementById("eyeIcon");
-
-      togglePassword.addEventListener("click", () => {
-        const isPasswordVisible = passwordInput.getAttribute("type") === "text";
-
-        // Toggle password visibility
-        passwordInput.setAttribute(
-          "type",
-          isPasswordVisible ? "password" : "text"
-        );
-
-        // Toggle icon
-        eyeIcon.src = isPasswordVisible
-          ? "./assets/icons/eye-closed.png"
-          : "./assets/icons/eye-open.png";
-      });
-    </script>
-  </body>
+</body>
 </html>

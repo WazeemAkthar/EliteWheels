@@ -9,55 +9,10 @@
 </head>
 
 <body>
+    <!-- Sidebar -->
+    <?php include('./sidebar.php'); ?>
 
     <div class="container">
-        <aside class="sidebar">
-            <div class="logo">
-                <img src="../assets/images/logo.png" alt="Logo" class="logo-img" />
-                <h1>EliteWheels</h1>
-            </div>
-            <nav class="menu">
-                <button class="accordion">
-                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                </button>
-                <button class="accordion">
-                    <i class="fas fa-car"></i> Manage Cars
-                </button>
-                <div class="panel">
-                    <a href="manage-cars.php">All Cars</a>
-                    <a href="luxury-cars.html">Luxury Cars</a>
-                </div>
-                <button class="accordion">
-                    <i class="fas fa-calendar-check"></i> Manage Rentals
-                </button>
-                <div class="panel">
-                    <a href="manage-rentals.html">All Rentals</a>
-                </div>
-                <button class="accordion">
-                    <i class="fas fa-users"></i> Manage Users
-                </button>
-                <div class="panel">
-                    <a href="manage-users.html">All Users</a>
-                </div>
-                <button class="accordion">
-                    <i class="fas fa-chart-line"></i> Reports
-                </button>
-                <div class="panel">
-                    <a href="reports.html">View Reports</a>
-                </div>
-
-                <!-- Gold Gradient Button with Sub-Buttons -->
-                <button class="accordion gold-button">
-                    <i class="fas fa-star"></i> Premium Features
-                </button>
-                <div class="panel">
-                    <a href="#">Sub Feature 1</a>
-                    <a href="#">Sub Feature 2</a>
-                </div>
-            </nav>
-        </aside>
-
-
         <main>
             <h1>Manage Cars</h1>
 
@@ -111,6 +66,29 @@
         </main>
     </div>
 
+    <!-- Edit Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Edit Car</h2>
+        <form method="POST" action="manage-cars.php">
+            <input type="hidden" name="id" id="edit-id">
+            <input type="text" name="name" id="edit-name" placeholder="Car Name" required>
+            <input type="text" name="brand" id="edit-brand" placeholder="Brand" required>
+            <input type="text" name="model" id="edit-model" placeholder="Model" required>
+            <input type="number" name="year" id="edit-year" placeholder="Year" required>
+            <input type="number" name="price" id="edit-price" placeholder="Price" step="0.01" required>
+            <input type="text" name="location" id="edit-location" placeholder="Location" required>
+            <label>
+                <input type="checkbox" name="availability" id="edit-availability"> Available
+            </label>
+            <button type="submit" name="update_car">Update Car</button>
+        </form>
+    </div>
+</div>
+
+
 </body>
+<script></script>
 
 </html>

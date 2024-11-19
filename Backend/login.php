@@ -1,44 +1,47 @@
 <?php
-header('Content-Type: application/json');
+session_start();
+require_once './db.php';
 
-// Database credentials
-$host = 'localhost';
-$dbname = 'car_rental_system';
-$username = 'root';
-$password = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['loginEmail'];
+    $password = $_POST['loginPassword'];
 
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
+    // First, fetch the user details including role_id
+    $stmt = $conn->prepare("SELECT users.id, users.name, users.password, users.role_id, roles.role_name 
+                            FROM users 
+                            JOIN roles ON users.role_id = roles.id 
+                            WHERE users.email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
 
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode(["status" => "error", "message" => "Database connection failed"]));
-}
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($id, $name, $hashed_password, $role_id, $role_name);
+        $stmt->fetch();
 
-// Get the POST data
-$user = $_POST['username'];
-$pass = $_POST['password'];
+        if (password_verify($password, $hashed_password)) {
+            // Store user details in session variables
+            $_SESSION['user_id'] = $id;
+            $_SESSION['name'] = $name;
+            $_SESSION['role_id'] = $role_id;
+            $_SESSION['role_name'] = $role_name; // Store the role name in the session
 
-// Sanitize input
-$user = $conn->real_escape_string($user);
-$pass = $conn->real_escape_string($pass);
-
-// Query to find the user
-$sql = "SELECT role, password FROM users WHERE username = '$user'";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-
-    // Verify the password (assuming MD5 encryption)
-    if (md5($pass) === $row['password']) {
-        echo json_encode(["status" => "success", "role" => $row['role']]);
+            // Redirect based on the role
+            if ($role_id == 3) { // Assuming 3 is Admin
+                header("Location: ../frontend/admin/dashboard.php");
+            } elseif ($role_id == 2) { // Assuming 2 is Staff
+                header("Location: ../frontend/staff/staff-dashboard.html");
+            } else {
+                header("Location: ../frontend/index.php");
+            }
+        } else {
+            echo "Invalid password.";
+        }
     } else {
-        echo json_encode(["status" => "error", "message" => "Incorrect password"]);
+        echo "No user found with that email.";
     }
-} else {
-    echo json_encode(["status" => "error", "message" => "User not found"]);
-}
 
-$conn->close();
+    $stmt->close();
+    $conn->close();
+}
 ?>

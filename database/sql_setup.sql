@@ -1,18 +1,27 @@
--- admin Table
-CREATE TABLE users (
+/* Roles */
+CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role ENUM('admin', 'staff', 'customer') NOT NULL
+    role_name VARCHAR(50) NOT NULL
 );
 
-INSERT INTO users (username, password, role) VALUES
-('admin_user', MD5('12345'), 'admin'),
-('staff_user', MD5('staff123'), 'staff'),
-('customer_user', MD5('customer123'), 'customer');
+/* users */
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role_id INT,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
 
 
--- Cars Table
+/* Insert roles */
+INSERT INTO roles (role_name) VALUES ('user'), ('staff'), ('admin');
+
+/* Primary Admin */
+INSERT INTO users (name, email, password, role_id) VALUES ('Sahee', 'Sahee@gmail.com', PASSWORD('1234'), 3);
+
+/* Cars Table */
 CREATE TABLE cars (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -25,7 +34,7 @@ CREATE TABLE cars (
 );
 
 
--- Rentals Table
+/* Rentals Table */
 CREATE TABLE rentals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -36,3 +45,4 @@ CREATE TABLE rentals (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (car_id) REFERENCES cars(id)
 );
+

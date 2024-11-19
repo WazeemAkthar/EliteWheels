@@ -1,44 +1,28 @@
 <?php
-require 'db.php';
+require_once 'db.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
     $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $role = 1; // User role
 
-    $query = "INSERT INTO users (username, password, email) VALUES (:username, :password, :email)";
-    $stmt = $conn->prepare($query);
-
-    try {
-        $stmt->execute(['username' => $username, 'password' => $password, 'email' => $email]);
-        header('Location: login.php');
-    } catch (PDOException $e) {
-        $error = "Error: " . $e->getMessage();
+    // Validate that passwords match
+    if ($_POST['password'] != $_POST['confirm_password']) {
+        die('Passwords do not match!');
     }
+
+    // Insert user into the database
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, role_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $name, $email, $password, $role);
+
+    if ($stmt->execute()) {
+        header("Location: ../frontend/login.html");
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
-
-<!-- HTML form -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Account</title>
-</head>
-<body>
-    <h2>Create an Account</h2>
-    <?php if (!empty($error)) echo "<p style='color: red;'>$error</p>"; ?>
-    <form action="register.php" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Register</button>
-    </form>
-</body>
-</html>

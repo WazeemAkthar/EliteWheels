@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -172,12 +176,6 @@
 
 
   /* Hero Section */
-  .hero-carousel {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
-  }
-
   .hero-carousel video {
     width: 100%;
     height: 100%;
@@ -286,7 +284,7 @@
       <div class="feature">
         <img src="./assets/icons/booking.png" alt="Convenient Booking">
         <h3>Convenient Booking</h3>
-        <p>Book your car easily online with a few clicks. jhdsv sdvh dsvh  jvfi</p>
+        <p>Book your car easily online with a few clicks. jhdsv sdvh dsvh jvfi</p>
       </div>
     </div>
   </section>
