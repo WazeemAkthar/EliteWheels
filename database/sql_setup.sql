@@ -21,17 +21,34 @@ INSERT INTO roles (role_name) VALUES ('user'), ('staff'), ('admin');
 /* Primary Admin */
 INSERT INTO users (name, email, password, role_id) VALUES ('Sahee', 'Sahee@gmail.com', PASSWORD('1234'), 3);
 
-/* Cars Table */
-CREATE TABLE cars (
+/* brands */
+CREATE TABLE brands (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    brand VARCHAR(50),
-    model VARCHAR(50),
-    year INT,
-    price DECIMAL(10, 2),
-    location VARCHAR(100),
-    availability BOOLEAN DEFAULT TRUE
+    brand_name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+/* Cars Table */
+CREATE TABLE vehicles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    vehicle_title VARCHAR(255) NOT NULL,
+    brand VARCHAR(100) NOT NULL,
+    overview TEXT NOT NULL,
+    price_per_day DECIMAL(10, 2) NOT NULL,
+    fuel_type VARCHAR(50) NOT NULL,
+    model_year INT NOT NULL,
+    seating_capacity INT NOT NULL,
+    car_type ENUM('Regular', 'Luxury') NOT NULL,
+    image1 VARCHAR(255) NOT NULL,
+    image2 VARCHAR(255) NOT NULL,
+    image3 VARCHAR(255) NOT NULL,
+    image4 VARCHAR(255),
+    image5 VARCHAR(255),
+    accessories TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 
 /* Rentals Table */

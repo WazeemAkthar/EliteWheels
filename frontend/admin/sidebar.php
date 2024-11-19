@@ -40,6 +40,7 @@
       </button>
       <div class="panel">
         <a href="manage-users.php">All Users</a>
+        <a href="ManageAccount.php">Manage Account</a>
       </div>
       <button class="accordion">
         <i class="fas fa-chart-line"></i> Reports
@@ -78,7 +79,7 @@
 
     function navigateToDashboard() {
       // Replace 'your-page.html' with the desired URL or page path
-      window.location.href = 'dashboard.php';
+      window.location.href = './dashboard.php';
     }
 
   </script>
