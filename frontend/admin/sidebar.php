@@ -15,7 +15,7 @@
   <aside class="sidebar">
     <div class="logo">
       <img src="../assets/images/logo.png" alt="Logo" class="logo-img" />
-      <h1>EliteWheels</h1>
+      <h2>EliteWheels</h2>
     </div>
     <nav class="menu">
       <button class="accordion" onclick="navigateToDashboard()">

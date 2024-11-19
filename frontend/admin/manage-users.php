@@ -62,7 +62,8 @@ function getRoleColor($role)
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         border-radius: 8px;
         margin-top: 10px;
-        margin-left: 260px; /* Adjust if your sidebar width differs */
+        margin-left: 260px;
+        /* Adjust if your sidebar width differs */
         padding: 20px;
     }
 
@@ -137,48 +138,52 @@ function getRoleColor($role)
     .role-other {
         background-color: #6c757d;
     }
+
+    .content-wrapper {
+        padding: 15px;
+    }
 </style>
 
 <body>
     <!-- Sidebar -->
     <?php include('./sidebar.php'); ?>
 
-    <div class="container-user">
-        <h1>User Data</h1>
+    <div class="content-wrapper">
+        <div class="container-user">
+            <h1>User Data</h1>
+            <!-- Legend Section -->
+            <div class="legend">
+                <span class="role-admin">Admin</span>
+                <span class="role-staff">Staff</span>
+                <span class="role-other">user</span>
+            </div>
 
-        <!-- Legend Section -->
-        <div class="legend">
-            <span class="role-admin">Admin</span>
-            <span class="role-staff">Staff</span>
-            <span class="role-other">user</span>
-        </div>
-
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-            </tr>
-            <?php
-            if ($result->num_rows > 0) {
-                // Output data of each row
-                while ($row = $result->fetch_assoc()) {
-                    $roleColor = getRoleColor($row['role_name']);
-                    echo "<tr>";
-                    echo "<td>{$row['id']}</td>";
-                    echo "<td>{$row['name']}</td>";
-                    echo "<td>{$row['email']}</td>";
-                    echo "<td class='role' style='background-color:{$roleColor}; color: white;'>{$row['role_name']}</td>";
-                    echo "</tr>";
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                <?php
+                if ($result->num_rows > 0) {
+                    // Output data of each row
+                    while ($row = $result->fetch_assoc()) {
+                        $roleColor = getRoleColor($row['role_name']);
+                        echo "<tr>";
+                        echo "<td>{$row['id']}</td>";
+                        echo "<td>{$row['name']}</td>";
+                        echo "<td>{$row['email']}</td>";
+                        echo "<td class='role' style='background-color:{$roleColor}; color: white;'>{$row['role_name']}</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='4' class='no-data'>No users found</td></tr>";
                 }
-            } else {
-                echo "<tr><td colspan='4' class='no-data'>No users found</td></tr>";
-            }
-            ?>
-        </table>
+                ?>
+            </table>
+        </div>
     </div>
-
     <script src="../JS/components.js"></script>
     <script>
         function navigateToPage() {

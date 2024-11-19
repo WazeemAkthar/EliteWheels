@@ -70,7 +70,6 @@ body {
 .main-content {
   margin-left: 250px;
   padding: 20px;
-  width: 100%;
 }
 
 .content-header {
@@ -389,7 +388,7 @@ table tr:hover {
 }
 
 /* Buttons */
-button,
+/* button,
 .delete-btn {
   background: linear-gradient(90deg, #ffcc00, #ffaa00);
   border: none;
@@ -402,23 +401,23 @@ button,
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
-}
+} */
 
-button:hover,
+/* button:hover,
 .delete-btn:hover {
   background: linear-gradient(90deg, #ffaa00, #ff8800);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
-}
+} */
 
-.delete-btn {
+/* .delete-btn {
   background: linear-gradient(90deg, #ff5555, #ff3333);
   color: #fff;
   text-decoration: none;
-}
+} */
 
-.delete-btn:hover {
+/* .delete-btn:hover {
   background: linear-gradient(90deg, #ff3333, #ff0000);
-}
+} */
 
 /* Form Styling */
 form {
