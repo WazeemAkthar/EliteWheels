@@ -22,6 +22,27 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
+
+// Fetch count of vehicles
+$sql_vehicles = "SELECT COUNT(*) AS vehicle_count FROM vehicles";
+$result_vehicles = $conn->query($sql_vehicles);
+$vehicle_count = $result_vehicles->fetch_assoc()['vehicle_count'];
+
+// Fetch count of users
+$sql_users = "SELECT COUNT(*) AS user_count FROM users";
+$result_users = $conn->query($sql_users);
+$user_count = $result_users->fetch_assoc()['user_count'];
+
+// Fetch count of rentals
+$sql_rentals = "SELECT COUNT(*) AS rental_count FROM rentals";
+$result_rentals = $conn->query($sql_rentals);
+$rental_count = $result_rentals->fetch_assoc()['rental_count'];
+
+$sql_brands = "SELECT COUNT(*) AS brand_count FROM brands";
+$result_brands = $conn->query($sql_brands);
+$brand_count = $result_brands->fetch_assoc()['brand_count'];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -47,29 +68,29 @@ if ($conn->connect_error) {
     </header>
     <section class="cards">
       <div class="card blue">
-        <h3>1</h3>
+        <h3><?php echo $user_count; ?></h3>
         <p>Reg Users</p>
-        <a href="#">Full Detail &rarr;</a>
+        <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <div class="card green">
-        <h3>1</h3>
+        <h3><?php echo $vehicle_count; ?></h3>
         <p>Listed Vehicles</p>
-        <a href="#">Full Detail &rarr;</a>
+        <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <div class="card sky">
-        <h3>1</h3>
+        <h3><?php echo $rental_count; ?></h3>
         <p>Total Bookings</p>
-        <a href="#">Full Detail &rarr;</a>
+        <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <div class="card orange">
-        <h3>1</h3>
+        <h3><?php echo $brand_count; ?></h3>
         <p>Listed Brands</p>
-        <a href="#">Full Detail &rarr;</a>
+        <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <div class="card gold">
         <h3>1</h3>
         <p>Luxury Vehicles</p>
-        <a href="#">Full Detail &rarr;</a>
+        <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <!-- Add more cards as needed -->
     </section>
