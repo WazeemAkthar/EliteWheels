@@ -127,6 +127,9 @@ $vehiclesResult = mysqli_query($conn, $vehiclesQuery);
             width: 50%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             position: relative;
+            height: 750px;
+            overflow: scroll;
+            scrollbar-width: none;
         }
 
         .close-btn {
@@ -183,23 +186,23 @@ $vehiclesResult = mysqli_query($conn, $vehiclesQuery);
                     </select>
 
                     <h3>Upload Images</h3>
-            <div class="upload-images">
+                    <div class="upload-images">
 
-                <label for="image1">Image 1 *</label>
-                <input type="file" id="image1" name="image1" required />
+                        <label for="image1">Image 1 *</label>
+                        <input type="file" id="image1" name="image1" required />
 
-                <label for="image2">Image 2 *</label>
-                <input type="file" id="image2" name="image2" required />
+                        <label for="image2">Image 2 *</label>
+                        <input type="file" id="image2" name="image2" required />
 
-                <label for="image3">Image 3 *</label>
-                <input type="file" id="image3" name="image3" required />
+                        <label for="image3">Image 3 *</label>
+                        <input type="file" id="image3" name="image3" required />
 
-                <label for="image4">Image 4</label>
-                <input type="file" id="image4" name="image4" />
+                        <label for="image4">Image 4</label>
+                        <input type="file" id="image4" name="image4" />
 
-                <label for="image5">Image 5</label>
-                <input type="file" id="image5" name="image5" />
-            </div>
+                        <label for="image5">Image 5</label>
+                        <input type="file" id="image5" name="image5" />
+                    </div>
                     <button type="submit" class="submit-btn">Save</button>
                 </form>
             </div>

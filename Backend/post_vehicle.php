@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $image5 = $_FILES['image5']['name'] ?? null;
 
     // Move uploaded files to a directory
-    $target_dir = '/uploads';
+    $target_dir = './uploads';
     move_uploaded_file($_FILES['image1']['tmp_name'], $upload_dir . $image1);
     move_uploaded_file($_FILES['image2']['tmp_name'], $upload_dir . $image2);
     move_uploaded_file($_FILES['image3']['tmp_name'], $upload_dir . $image3);
