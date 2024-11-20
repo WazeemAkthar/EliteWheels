@@ -171,7 +171,7 @@ $result = mysqli_query($conn, $query);
         </select>
         <input type="text" name="search" placeholder="Search by name..." id="search"
           value="<?= htmlspecialchars($searchQuery) ?>">
-        <button type="submit" >Filter</button>
+        <button type="submit">Filter</button>
       </form>
     </div>
   </section>
@@ -188,7 +188,7 @@ $result = mysqli_query($conn, $query);
               <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
               <p>Seats: <?= $vehicle['seating_capacity'] ?> | Transmission: <?= $vehicle['fuel_type'] ?> | Price:
                 $<?= $vehicle['price_per_day'] ?>/day</p>
-              <button  onclick="navigateTotest()">View Details</button>
+              <button onclick="navigateTotest()">View Details</button>
             </div>
           <?php endwhile; ?>
         <?php else: ?>
@@ -200,7 +200,7 @@ $result = mysqli_query($conn, $query);
 
   <?php include('./footer.php'); ?>
   <script>
-     function navigateTotest() {
+    function navigateTotest() {
       // Replace 'your-page.html' with the desired URL or page path
       window.location.href = './test.php';
     }
