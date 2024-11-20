@@ -26,7 +26,8 @@
       </button>
       <div class="panel">
         <a href="brands.php">Brands</a>
-        <a href="manage-cars.php">All Cars</a>
+        <a href="post-a-vehicle.php">Post a vehicle</a>
+        <a href="manage-cars.php">Manage Cars</a>
         <a href="luxury-cars.html">Luxury Cars</a>
       </div>
       <button class="accordion">

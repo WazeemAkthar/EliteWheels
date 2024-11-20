@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['role_id'])) {
-  header("Location: ../index.php");
+  header("Location: ../login.html");
   exit();
 }
 
@@ -64,6 +64,11 @@ if ($conn->connect_error) {
       <div class="card orange">
         <h3>1</h3>
         <p>Listed Brands</p>
+        <a href="#">Full Detail &rarr;</a>
+      </div>
+      <div class="card gold">
+        <h3>1</h3>
+        <p>Luxury Vehicles</p>
         <a href="#">Full Detail &rarr;</a>
       </div>
       <!-- Add more cards as needed -->

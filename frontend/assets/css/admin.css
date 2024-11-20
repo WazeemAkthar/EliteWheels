@@ -129,13 +129,18 @@ body {
   color: #fff;
 }
 
+.gold{
+  background: linear-gradient(45deg, #f1c40f, #e67e22);
+  color: white;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .sidebar {
     width: 200px;
   }
   .main-content {
-    margin-left: 200px;
+    margin-left: 0px;
   }
 }
 
@@ -365,7 +370,9 @@ table thead {
   background: #444466;
 }
 
-table th,
+table th {
+  color: black;
+}
 table td {
   padding: 12px 15px;
   border: 1px solid #444466;
@@ -383,7 +390,7 @@ table tr:nth-child(even) {
 
 table tr:hover {
   background: #52527f;
-  color: #fff;
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -429,6 +436,7 @@ form {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  flex-direction: column;
 }
 
 form input,

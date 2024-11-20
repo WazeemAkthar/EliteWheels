@@ -255,14 +255,14 @@ session_start();
     <div class="hero-content">
       <h1>Drive Your Dreams Today</h1>
       <p>Luxury and Comfort on Every Road</p>
-      <!-- <button onclick="location.href='booking.html'">Book Now</button> -->
+      <button onclick="location.href='cars.php'">Book Now</button>
       <!-- Search Bar Section -->
-      <div class="search-bar">
+      <!-- <div class="search-bar">
         <input type="text" placeholder="Enter your location" />
         <input type="date" />
         <input type="date" />
         <button>Search</button>
-      </div>
+      </div> -->
     </div>
   </section>
 

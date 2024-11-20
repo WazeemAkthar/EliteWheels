@@ -124,8 +124,8 @@
         <li><a href="./cars.php">Rent</a></li>
         <li><a href="#ride">Ride</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="#" id="loginTrigger">login</a></li>
-        <li><a href="#" id="registerTrigger">Register</a></li>
+        <li><a href="./login.html">login</a></li>
+        <li><a href="./Register.html">Register</a></li>
       </ul>
       <!-- <div class="nav__btn">
         <button class="btn">Get Started</button>

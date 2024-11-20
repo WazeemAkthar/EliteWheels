@@ -1,189 +1,188 @@
 <?php
-// Fetch brands from the database
-$conn = new mysqli('localhost', 'root', '', 'car_rental_system'); // Adjust credentials
-$result = $conn->query("SELECT id, brand_name FROM brands");
-?>
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "car_rental_system");
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
+// Handle Add/Edit Form Submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $vehicleId = $_POST['vehicleId'] ?? null;
+    $vehicleTitle = $_POST['vehicleTitle'];
+    $brand = $_POST['brand'];
+    $overview = $_POST['overview'];
+    $pricePerDay = $_POST['pricePerDay'];
+    $fuelType = $_POST['fuelType'];
+    $modelYear = $_POST['modelYear'];
+    $seatingCapacity = $_POST['seatingCapacity'];
+    $carType = $_POST['carType'];
+
+    if ($vehicleId) {
+        // Update vehicle
+        $query = "UPDATE vehicles SET 
+                    vehicle_title = '$vehicleTitle', 
+                    brand = '$brand', 
+                    overview = '$overview', 
+                    price_per_day = '$pricePerDay', 
+                    fuel_type = '$fuelType', 
+                    model_year = $modelYear, 
+                    seating_capacity = $seatingCapacity, 
+                    car_type = '$carType' 
+                  WHERE id = $vehicleId";
+        mysqli_query($conn, $query);
+    } else {
+        // Add new vehicle
+        $query = "INSERT INTO vehicles (vehicle_title, brand, overview, price_per_day, fuel_type, model_year, seating_capacity, car_type) 
+                  VALUES ('$vehicleTitle', '$brand', '$overview', '$pricePerDay', '$fuelType', $modelYear, $seatingCapacity, '$carType')";
+        mysqli_query($conn, $query);
+    }
+}
+
+// Handle Delete Request
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $query = "DELETE FROM vehicles WHERE id = $id";
+    mysqli_query($conn, $query);
+}
+
+// Fetch All Vehicles
+$vehiclesQuery = "SELECT * FROM vehicles";
+$vehiclesResult = mysqli_query($conn, $vehiclesQuery);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="./assets/css/admin.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Vehicles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .add-btn {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<style>
-    /* General Form Styling */
-    form {
-        max-width: 800px;
-        margin: 50px auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        font-family: 'Arial', sans-serif;
-        color: #333;
-    }
-
-    /* Section Titles */
-    form h3 {
-        font-size: 18px;
-        margin-bottom: 10px;
-        color: #2c3e50;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    /* Labels */
-    form label {
-        display: block;
-        margin-bottom: 8px;
-        font-size: 14px;
-        color: #34495e;
-        font-weight: bold;
-    }
-
-    /* Input Fields */
-    form input[type="text"],
-    form input[type="number"],
-    form textarea,
-    form select {
-        width: 100%;
-        padding: 10px 15px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-        box-sizing: border-box;
-        transition: 0.3s ease;
-    }
-
-    /* Focus Effect */
-    form input:focus,
-    form textarea:focus,
-    form select:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-
-    /* File Input */
-    form input[type="file"] {
-        padding: 5px;
-        font-size: 14px;
-        margin-bottom: 15px;
-    }
-
-    /* Checkboxes */
-    form .checkbox-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    form .checkbox-group label {
-        font-size: 14px;
-        color: #555;
-    }
-
-    /* Buttons */
-    form button {
-        display: inline-block;
-        padding: 10px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        color: #fff;
-        background-color: #007bff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: 0.3s ease;
-    }
-
-    form button:hover {
-        background-color: #0056b3;
-    }
-
-    /* Cancel Button */
-    form .btn-cancel {
-        background-color: #e74c3c;
-        margin-right: 10px;
-    }
-
-    form .btn-cancel:hover {
-        background-color: #c0392b;
-    }
-
-    /* Accessories Section */
-    form .accessories {
-        margin-top: 20px;
-        padding: 10px;
-        background-color: #ecf0f1;
-        border-radius: 5px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        form {
-            padding: 15px;
-        }
-
-        form .checkbox-group {
-            flex-direction: column;
-        }
-    }
-</style>
 
 <body>
     <!-- Sidebar -->
     <?php include('./sidebar.php'); ?>
     <div class="container">
-        <h1>Post A Vehicle</h1>
-        <form action="/Backend/post_vehicle.php" method="POST" enctype="multipart/form-data">
-            <div class="basic-info">
-                <h3>Basic Info</h3>
-                <label for="vehicle_title">Vehicle Title *</label>
-                <input type="text" id="vehicle_title" name="vehicle_title" required />
+        <h1>Vehicle Management</h1>
+        <button id="addVehicleBtn" class="add-btn">+ Add Vehicle</button>
 
-                <label for="brand">Select Brand *</label>
-                <select id="brand" name="brand" required>
-                    <option value="">Select</option>
-                    <?php while ($row = $result->fetch_assoc()): ?>
-                        <option value="<?php echo $row['brand_name']; ?>"><?php echo $row['brand_name']; ?></option>
-                    <?php endwhile; ?>
-                </select>
-                <label for="overview">Vehicle Overview *</label>
-                <textarea id="overview" name="overview" required></textarea>
+        <!-- Modal for Add/Edit Vehicle -->
+        <div id="vehicleModal" class="modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close-btn">&times;</span>
+                <form id="vehicleForm" method="POST">
+                    <input type="hidden" id="vehicleId" name="vehicleId">
+                    <h2 id="formTitle">Add Vehicle</h2>
+                    <label for="vehicleTitle">Vehicle Title</label>
+                    <input type="text" id="vehicleTitle" name="vehicleTitle" required>
+                    <label for="brand">Brand</label>
+                    <input type="text" id="brand" name="brand" required>
+                    <label for="overview">Overview</label>
+                    <textarea id="overview" name="overview" required></textarea>
+                    <label for="pricePerDay">Price Per Day</label>
+                    <input type="number" id="pricePerDay" name="pricePerDay" required>
+                    <label for="fuelType">Fuel Type</label>
+                    <input type="text" id="fuelType" name="fuelType" required>
+                    <label for="modelYear">Model Year</label>
+                    <input type="number" id="modelYear" name="modelYear" required>
+                    <label for="seatingCapacity">Seating Capacity</label>
+                    <input type="number" id="seatingCapacity" name="seatingCapacity" required>
+                    <label for="carType">Car Type</label>
+                    <select id="carType" name="carType" required>
+                        <option value="Regular">Regular</option>
+                        <option value="Luxury">Luxury</option>
+                    </select>
 
-                <label for="price_per_day">Price Per Day (in USD) *</label>
-                <input type="number" id="price_per_day" name="price_per_day" required />
-
-                <label for="fuel_type">Select Fuel Type *</label>
-                <select id="fuel_type" name="fuel_type" required>
-                    <option value="">Select</option>
-                    <option value="Petrol">Petrol</option>
-                    <option value="Diesel">Diesel</option>
-                    <option value="Electric">Electric</option>
-                </select>
-
-                <label for="model_year">Model Year *</label>
-                <input type="number" id="model_year" name="model_year" required />
-
-                <label for="seating_capacity">Seating Capacity *</label>
-                <input type="number" id="seating_capacity" name="seating_capacity" required />
-
-                <label for="car_type">Car Type *</label>
-                <select id="car_type" name="car_type" required>
-                    <option value="Regular">Regular</option>
-                    <option value="Luxury">Luxury</option>
-                </select>
-            </div>
-
-
-            <h3>Upload Images</h3>
+                    <h3>Upload Images</h3>
             <div class="upload-images">
 
                 <label for="image1">Image 1 *</label>
@@ -201,39 +200,69 @@ $result = $conn->query("SELECT id, brand_name FROM brands");
                 <label for="image5">Image 5</label>
                 <input type="file" id="image5" name="image5" />
             </div>
-
-            <h3>Accessories</h3>
-            <div class="checkbox-group">
-                <label><input type="checkbox" name="accessories[]" value="Air Conditioner" />
-                    Air Conditioner</label>
-                <label><input type="checkbox" name="accessories[]" value="Power Door Locks" />
-                    Power Door Locks</label>
-                <label><input type="checkbox" name="accessories[]" value="AntiLock Braking System" />
-                    AntiLock Braking System</label>
-                <label><input type="checkbox" name="accessories[]" value="Brake Assist" />
-                    Brake Assist</label>
-                <label><input type="checkbox" name="accessories[]" value="Power Steering" />
-                    Power Steering</label>
-                <label><input type="checkbox" name="accessories[]" value="Passenger Airbag" />
-                    Passenger Airbag</label>
-                <label><input type="checkbox" name="accessories[]" value="Driver Airbag" />
-                    Driver Airbag</label>
-                <label><input type="checkbox" name="accessories[]" value="Leather Seats" />
-                    Leather Seats</label>
+                    <button type="submit" class="submit-btn">Save</button>
+                </form>
             </div>
+        </div>
 
-            <h3>Car Type</h3>
-            <label for="car-type">Select Car Type</label>
-            <select id="car-type" name="car_type" required>
-                <option value="">Select</option>
-                <option value="regular">Regular</option>
-                <option value="luxury">Luxury</option>
-            </select>
-
-            <button type="submit" class="save-btn">Save Changes</button>
-            <button type="reset" class="cancel-btn">Cancel</button>
-        </form>
+        <!-- Vehicles Table -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Vehicle Title</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Fuel Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($vehicle = mysqli_fetch_assoc($vehiclesResult)) { ?>
+                    <tr>
+                        <td><?= $vehicle['id'] ?></td>
+                        <td><?= $vehicle['vehicle_title'] ?></td>
+                        <td><?= $vehicle['brand'] ?></td>
+                        <td><?= $vehicle['price_per_day'] ?></td>
+                        <td><?= $vehicle['fuel_type'] ?></td>
+                        <td>
+                            <button class="action-btn edit-btn"
+                                onclick="editVehicle(<?= $vehicle['id'] ?>, '<?= $vehicle['vehicle_title'] ?>', '<?= $vehicle['brand'] ?>')">Edit</button>
+                            <a style="text-decoration: none;" href="?delete=<?= $vehicle['id'] ?>"
+                                class="action-btn delete-btn">Delete</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
     </div>
+    <script>
+        const modal = document.getElementById('vehicleModal');
+        const addVehicleBtn = document.getElementById('addVehicleBtn');
+        const closeModal = document.getElementById('closeModal');
+        const vehicleForm = document.getElementById('vehicleForm');
+        const formTitle = document.getElementById('formTitle');
+        const vehicleIdInput = document.getElementById('vehicleId');
+
+        addVehicleBtn.addEventListener('click', () => {
+            formTitle.textContent = 'Add Vehicle';
+            vehicleForm.reset();
+            vehicleIdInput.value = '';
+            modal.style.display = 'flex';
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        function editVehicle(id, title, brand) {
+            formTitle.textContent = 'Edit Vehicle';
+            vehicleIdInput.value = id;
+            document.getElementById('vehicleTitle').value = title;
+            document.getElementById('brand').value = brand;
+            modal.style.display = 'flex';
+        }
+    </script>
 </body>
 
 </html>
