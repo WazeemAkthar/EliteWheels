@@ -60,6 +60,7 @@ CREATE TABLE rentals (
     vehicle_name VARCHAR(255),
     rental_start DATE,
     rental_end DATE,
+    message TEXT,
     status ENUM('booked', 'returned') DEFAULT 'booked',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
