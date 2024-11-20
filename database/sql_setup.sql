@@ -56,12 +56,16 @@ CREATE TABLE rentals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     car_id INT,
+    user_name VARCHAR(255),
+    vehicle_name VARCHAR(255),
     rental_start DATE,
     rental_end DATE,
     status ENUM('booked', 'returned') DEFAULT 'booked',
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (car_id) REFERENCES cars(id)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (car_id) REFERENCES vehicles(id) ON DELETE CASCADE
 );
+
 
 /* booking details */
 CREATE TABLE bookings (
