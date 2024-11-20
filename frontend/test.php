@@ -103,6 +103,8 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
+<?php include('./navbar.php'); ?>
+
     <div class="container">
         <!-- Carousel -->
         <div class="carousel" id="carousel">
@@ -140,7 +142,7 @@ if (!isset($_SESSION['user_id'])) {
             </form>
         </div>
     </div>
-
+    <?php include('./footer.php'); ?>
     <script>
         // Carousel functionality
         const carousel = document.getElementById('carousel');
