@@ -159,7 +159,7 @@ if (!isset($_SESSION['user_id'])) {
             event.preventDefault();
 
             const formData = new FormData(bookingForm);
-            const response = await fetch('/Backend/process-booking.php', {
+            const response = await fetch('../Backend/process-booking.php', {
                 method: 'POST',
                 body: formData,
             });
