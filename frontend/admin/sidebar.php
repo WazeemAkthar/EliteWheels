@@ -34,7 +34,7 @@
         <i class="fas fa-calendar-check"></i> Manage Rentals
       </button>
       <div class="panel">
-        <a href="manage-rentals.html">All Rentals</a>
+        <a href="manage-rentals.php">All Rentals</a>
       </div>
       <button class="accordion">
         <i class="fas fa-users"></i> Manage Users
