@@ -1,127 +1,176 @@
 <?php
 session_start();
-$conn = new mysqli("localhost", "root", "", "car_rental_system");
+
+// Database connection
+$conn = mysqli_connect("localhost", "root", "", "car_rental_system");
+if (!$conn) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
+// Fetch car details based on vhid parameter
+if (isset($_GET['vhid'])) {
+    $vhid = intval($_GET['vhid']); // Prevent SQL injection
+    $query = "SELECT * FROM vehicles WHERE id = $vhid";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $vehicle = mysqli_fetch_assoc($result); // Fetch car data
+    } else {
+        echo "Vehicle not found.";
+        exit;
+    }
+} else {
+    echo "No vehicle selected.";
+    exit;
+}
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.html");
-    exit();
-}
-
-// Get the vehicle ID from the query parameter
-if (isset($_GET['vhid'])) {
-    $vehicle_id = $_GET['vhid'];
-
-    // Fetch vehicle details from the database
-    $sql = "SELECT * FROM vehicles WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $vehicle_id);
-    $stmt->execute();
-    $vehicle = $stmt->get_result()->fetch_assoc();
-
-    // If no vehicle found, redirect back
-    if (!$vehicle) {
-        echo "<script>alert('Vehicle not found!'); window.location.href = 'index.php';</script>";
-        exit();
-    }
-} else {
-    echo "<script>alert('Invalid request!'); window.location.href = 'index.php';</script>";
-    exit();
-}
-
-// Handle booking form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $user_id = $_SESSION['user_id'];
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    $message = $_POST['message'];
-
-    $insert_sql = "INSERT INTO bookings (car_id, user_id, start_date, end_date, message) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($insert_sql);
-    $stmt->bind_param("iisss", $vehicle_id, $user_id, $start_date, $end_date, $message);
-
-    if ($stmt->execute()) {
-        echo "<script>alert('Booking successful!');</script>";
-    } else {
-        echo "<script>alert('Booking failed! Please try again.');</script>";
-    }
+    header("Location: login.php");
+    exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $vehicle['vehicle_title']; ?> Details</title>
+    <title>Book <?= htmlspecialchars($vehicle['vehicle_title']) ?></title>
     <style>
-        /* Add your CSS styling here */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-        .vehicle-details {
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            overflow: hidden;
+            margin-bottom: 20px;
         }
-        .vehicle-images img {
+
+        .carousel img {
             max-width: 100%;
-            height: auto;
-            margin: 5px;
+            transition: transform 0.5s ease;
         }
-        .vehicle-info {
-            margin-top: 20px;
-        }
+
+        .details,
         .booking-form {
-            margin-top: 30px;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
+
 <body>
-    <div class="vehicle-details">
-        <h1><?php echo $vehicle['vehicle_title']; ?></h1>
-        <div class="vehicle-images">
-            <img src="<?php echo $vehicle['image1']; ?>" alt="Image 1">
-            <img src="<?php echo $vehicle['image2']; ?>" alt="Image 2">
-            <img src="<?php echo $vehicle['image3']; ?>" alt="Image 3">
-            <?php if ($vehicle['image4']) { ?>
-                <img src="<?php echo $vehicle['image4']; ?>" alt="Image 4">
-            <?php } ?>
-            <?php if ($vehicle['image5']) { ?>
-                <img src="<?php echo $vehicle['image5']; ?>" alt="Image 5">
-            <?php } ?>
+    <div class="container">
+        <!-- Carousel -->
+        <div class="carousel" id="carousel">
+            <img src="<?= htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
+            <img src="<?= htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
+            <img src="<?= htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
         </div>
 
-        <div class="vehicle-info">
-            <p><strong>Brand:</strong> <?php echo $vehicle['brand']; ?></p>
-            <p><strong>Model Year:</strong> <?php echo $vehicle['model_year']; ?></p>
-            <p><strong>Fuel Type:</strong> <?php echo $vehicle['fuel_type']; ?></p>
-            <p><strong>Seating Capacity:</strong> <?php echo $vehicle['seating_capacity']; ?></p>
-            <p><strong>Car Type:</strong> <?php echo $vehicle['car_type']; ?></p>
-            <p><strong>Price Per Day:</strong> $<?php echo $vehicle['price_per_day']; ?></p>
-            <h3>Overview</h3>
-            <p><?php echo $vehicle['overview']; ?></p>
-
-            <h3>Accessories</h3>
-            <p><?php echo $vehicle['accessories']; ?></p>
+        <!-- Car Details -->
+        <div class="details">
+            <h1><?= htmlspecialchars($vehicle['vehicle_title']) ?></h1>
+            <h2>$<?= htmlspecialchars($vehicle['price_per_day']) ?>/day</h2>
+            <p><strong>Fuel Type:</strong> <?= htmlspecialchars($vehicle['fuel_type']) ?></p>
+            <p><strong>Seats:</strong> <?= htmlspecialchars($vehicle['seating_capacity']) ?></p>
+            <p><strong>Registration Year:</strong> <?= htmlspecialchars($vehicle['reg_year']) ?></p>
         </div>
 
+        <!-- Booking Form -->
         <div class="booking-form">
-            <h3>Book Now</h3>
-            <form method="POST" action="">
-                <label for="start_date">From Date:</label>
-                <input type="date" name="start_date" id="start_date" required>
-
-                <label for="end_date">To Date:</label>
-                <input type="date" name="end_date" id="end_date" required>
-
-                <label for="message">Message:</label>
-                <textarea name="message" id="message" rows="4"></textarea>
-
+            <form id="bookingForm">
+                <input type="hidden" name="vhid" value="<?= $vhid ?>">
+                <div class="form-group">
+                    <label for="from_date">From Date:</label>
+                    <input type="date" id="from_date" name="from_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="to_date">To Date:</label>
+                    <input type="date" id="to_date" name="to_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="5"></textarea>
+                </div>
                 <button type="submit">Book Now</button>
             </form>
         </div>
     </div>
+
+    <script>
+        // Carousel functionality
+        const carousel = document.getElementById('carousel');
+        const images = carousel.getElementsByTagName('img');
+        let currentIndex = 0;
+
+        setInterval(() => {
+            images[currentIndex].style.transform = 'translateX(-100%)';
+            currentIndex = (currentIndex + 1) % images.length;
+            images[currentIndex].style.transform = 'translateX(0)';
+        }, 3000);
+
+        // Booking Form Submission
+        const bookingForm = document.getElementById('bookingForm');
+        bookingForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(bookingForm);
+            const response = await fetch('/Backend/process-booking.php', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.text();
+            alert(result);
+            if (response.ok) {
+                window.location.href = 'thank-you.php';
+            }
+        });
+    </script>
 </body>
+
 </html>

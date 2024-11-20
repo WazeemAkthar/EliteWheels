@@ -188,7 +188,8 @@ $result = mysqli_query($conn, $query);
               <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
               <p>Seats: <?= $vehicle['seating_capacity'] ?> | Transmission: <?= $vehicle['fuel_type'] ?> | Price:
                 $<?= $vehicle['price_per_day'] ?>/day</p>
-              <button onclick="navigateTotest()">View Details</button>
+              <button onclick="window.location.href='test.php?vhid=<?= $vehicle['id'] ?>'">View Details</button>
+
             </div>
           <?php endwhile; ?>
         <?php else: ?>

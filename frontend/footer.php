@@ -80,11 +80,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       align-items: start;
       flex-wrap: wrap;
       gap: 20px;
-      flex-direction: column;
       align-items: stretch;
     ">
       <!-- Left Section: Subscribe -->
-      <div style="flex: 1;">
+      <div style="flex: 1;  flex-basis: min-content;">
         <h3>Subscribe to our Newsletter</h3>
         <form id="subscribeForm" style="margin-top: 10px;">
           <input type="email" name="email" placeholder="Enter your email" required style="
@@ -131,12 +130,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </li>
         </ul>
       </div>
-      <hr />
-      <!-- Right Section: Copyright -->
-      <div style="flex: 1; text-align: right;">
-        <p>&copy; 2024 EliteWheels. All Rights Reserved.</p>
-      </div>
     </div>
+    <hr />
+    <!-- Right Section: Copyright -->
+    <div style="flex: 1; text-align: right;">
+      <p>&copy; 2024 EliteWheels. All Rights Reserved.</p>
+    </div>
+
   </footer>
 
   <script>
