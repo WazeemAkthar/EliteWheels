@@ -114,10 +114,10 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Car Details -->
         <div class="details">
             <h1><?= htmlspecialchars($vehicle['vehicle_title']) ?></h1>
-            <h2>$<?= htmlspecialchars($vehicle['price_per_day']) ?>/day</h2>
+            <h2>Rs.<?= htmlspecialchars($vehicle['price_per_day']) ?>/day</h2>
             <p><strong>Fuel Type:</strong> <?= htmlspecialchars($vehicle['fuel_type']) ?></p>
             <p><strong>Seats:</strong> <?= htmlspecialchars($vehicle['seating_capacity']) ?></p>
-            <p><strong>Registration Year:</strong> <?= htmlspecialchars($vehicle['reg_year']) ?></p>
+            <p><strong>Registration Year:</strong> <?= htmlspecialchars($vehicle['model_year']) ?></p>
         </div>
 
         <!-- Booking Form -->

@@ -12,13 +12,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Validate and sanitize input
-$car_id = intval($_POST['vhid']);
-$user_id = intval($_SESSION['user_id']);
-$start_date = mysqli_real_escape_string($conn, $_POST['from_date']);
-$end_date = mysqli_real_escape_string($conn, $_POST['to_date']);
-$message = mysqli_real_escape_string($conn, $_POST['message']);
-
 // Booking logic in PHP
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Retrieve form data
@@ -26,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $car_id = intval($_POST['car_id']);
     $rental_start = $_POST['start_date'];
     $rental_end = $_POST['end_date'];
+    $message = mysqli_real_escape_string($conn, $_POST['message']);
 
     // Fetch user name
     $user_query = "SELECT name FROM users WHERE id = $user_id";
@@ -41,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Insert rental data
     $insert_query = "
-        INSERT INTO rentals (user_id, car_id, user_name, vehicle_name, rental_start, rental_end) 
-        VALUES ('$user_id', '$car_id', '$user_name', '$vehicle_name', '$rental_start', '$rental_end')
+        INSERT INTO rentals (user_id, car_id, user_name, vehicle_name, rental_start, rental_end, message) 
+        VALUES ('$user_id', '$car_id', '$user_name', '$vehicle_name', '$rental_start', '$rental_end', '$message')
     ";
     if (mysqli_query($conn, $insert_query)) {
         echo "Booking successful!";
@@ -50,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error: " . mysqli_error($conn);
     }
 }
+
 
 mysqli_close($conn);
 ?>
