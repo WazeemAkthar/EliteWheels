@@ -103,7 +103,7 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<?php include('./navbar.php'); ?>
+    <?php include('./navbar.php'); ?>
 
     <div class="container">
         <!-- Carousel -->
@@ -124,22 +124,20 @@ if (!isset($_SESSION['user_id'])) {
 
         <!-- Booking Form -->
         <div class="booking-form">
-            <form id="bookingForm">
-                <input type="hidden" name="vhid" value="<?= $vhid ?>">
-                <div class="form-group">
-                    <label for="from_date">From Date:</label>
-                    <input type="date" id="from_date" name="from_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="to_date">To Date:</label>
-                    <input type="date" id="to_date" name="to_date" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message" rows="5"></textarea>
-                </div>
+            <form action="../Backend/process-booking.php" method="POST">
+                <input type="hidden" name="car_id" value="<?php echo $vehicle['id']; ?>">
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required>
+
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message"></textarea>
+
                 <button type="submit">Book Now</button>
             </form>
+
         </div>
     </div>
     <?php include('./footer.php'); ?>
