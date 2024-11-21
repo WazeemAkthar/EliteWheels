@@ -156,7 +156,7 @@ $result = mysqli_query($conn, $query);
 
 <body>
 
-  
+
 
   <!-- Filter Section -->
   <section class="filter-section">
@@ -183,13 +183,24 @@ $result = mysqli_query($conn, $query);
         <?php if (mysqli_num_rows($result) > 0): ?>
           <?php while ($vehicle = mysqli_fetch_assoc($result)): ?>
             <div class="car-card">
-              <img src="<?= htmlspecialchars($vehicle['image1']) ?>"
-                alt="<?= htmlspecialchars($vehicle['vehicle_title']) ?>">
-              <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
-              <p>Seats: <?= $vehicle['seating_capacity'] ?> | Transmission: <?= $vehicle['fuel_type'] ?> | Price:
-                $<?= $vehicle['price_per_day'] ?>/day</p>
-              <button onclick="window.location.href='test.php?vhid=<?= $vehicle['id'] ?>'">View Details</button>
+              <!-- Display the image -->
+              <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>"
+                alt="<?= htmlspecialchars($vehicle['vehicle_title']) ?>" onerror="this.src='default-image.jpg';" />
 
+              <!-- Vehicle Title -->
+              <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
+
+              <!-- Vehicle Details -->
+              <p>
+                Seats: <?= $vehicle['seating_capacity'] ?> |
+                Transmission: <?= $vehicle['fuel_type'] ?> |
+                Price: $<?= $vehicle['price_per_day'] ?>/day
+              </p>
+
+              <!-- View Details Button -->
+              <button onclick="window.location.href='test.php?vhid=<?= $vehicle['id'] ?>'">
+                View Details
+              </button>
             </div>
           <?php endwhile; ?>
         <?php else: ?>
@@ -199,7 +210,9 @@ $result = mysqli_query($conn, $query);
     </div>
   </section>
 
-  
+
+
+
   <script>
     function navigateTotest() {
       // Replace 'your-page.html' with the desired URL or page path

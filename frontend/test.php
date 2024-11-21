@@ -108,9 +108,9 @@ if (!isset($_SESSION['user_id'])) {
     <div class="container">
         <!-- Carousel -->
         <div class="carousel" id="carousel">
-            <img src="<?= htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
-            <img src="<?= htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
-            <img src="<?= htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
+            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
+            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
+            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
         </div>
 
         <!-- Car Details -->
