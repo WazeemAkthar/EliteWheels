@@ -156,7 +156,7 @@ $result = mysqli_query($conn, $query);
 
 <body>
 
-  <?php include('./navbar.php'); ?>
+  
 
   <!-- Filter Section -->
   <section class="filter-section">
@@ -199,7 +199,7 @@ $result = mysqli_query($conn, $query);
     </div>
   </section>
 
-  <?php include('./footer.php'); ?>
+  
   <script>
     function navigateTotest() {
       // Replace 'your-page.html' with the desired URL or page path

@@ -121,7 +121,7 @@
       </div>
       <ul class="nav__links" id="nav-links">
         <li><a href="./index.php">Home</a></li>
-        <li><a href="./cars.php">Rent</a></li>
+        <li><a href="./RentCar.php">Rent</a></li>
         <li><a href="#ride">Ride</a></li>
         <li><a href="#contact">Contact</a></li>
         <li><a href="./login.html">login</a></li>

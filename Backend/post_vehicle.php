@@ -22,14 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $image5 = $_FILES['image5']['name'] ?? null;
 
     // Move uploaded files to a directory
-    $target_dir = './Backend/uploads/';
-    move_uploaded_file($_FILES['image1']['tmp_name'], $upload_dir . $image1);
-    move_uploaded_file($_FILES['image2']['tmp_name'], $upload_dir . $image2);
-    move_uploaded_file($_FILES['image3']['tmp_name'], $upload_dir . $image3);
+    $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/EliteWheels/Backend/uploads/';
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true); // Create directory if it doesn't exist
+    }
+
+    move_uploaded_file($_FILES['image1']['tmp_name'], $target_dir . $image1);
+    move_uploaded_file($_FILES['image2']['tmp_name'], $target_dir . $image2);
+    move_uploaded_file($_FILES['image3']['tmp_name'], $target_dir . $image3);
     if (!empty($image4))
-        move_uploaded_file($_FILES['image4']['tmp_name'], $upload_dir . $image4);
+        move_uploaded_file($_FILES['image4']['tmp_name'], $target_dir . $image4);
     if (!empty($image5))
-        move_uploaded_file($_FILES['image5']['tmp_name'], $upload_dir . $image5);
+        move_uploaded_file($_FILES['image5']['tmp_name'], $target_dir . $image5);
+
 
     // Insert data into database
     $sql = "INSERT INTO vehicles (vehicle_title, brand, overview, price_per_day, fuel_type, model_year, seating_capacity, car_type, image1, image2, image3, image4, image5, accessories)

@@ -266,6 +266,8 @@ session_start();
     </div>
   </section>
 
+  <?php include('./cars.php'); ?>
+
 
   <!-- Why Choose Us Section -->
   <section class="why-choose-us">
