@@ -115,22 +115,25 @@ $result = mysqli_query($conn, $query);
     transition: transform 0.3s ease;
     text-align: center;
     padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .car-card img {
-    width: 100%;
-    height: 150px;
+    width: 30%;
+    height: 240px;
     object-fit: cover;
   }
 
   .car-card h3 {
-    font-size: 1.2rem;
+    font-size: 2.5rem;
     margin: 0.5rem 0;
   }
 
   .car-card p {
     color: #555;
-    font-size: 0.9rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
   }
 
@@ -152,29 +155,23 @@ $result = mysqli_query($conn, $query);
   .car-card button:hover {
     background-color: #d4a514;
   }
+
+  .about-vehicle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+  }
+
+  .Details {
+    display: flex;
+    gap: 40px;
+    width: 100%;
+  }
 </style>
 
 <body>
 
-
-
-  <!-- Filter Section -->
-  <section class="filter-section">
-    <div class="container">
-      <h1>Our Vehicles</h1>
-      <p>Find the perfect car for your journey.</p>
-      <form id="filterForm" method="GET">
-        <select name="category" id="category">
-          <option value="all" <?= $filterCategory == 'all' ? 'selected' : '' ?>>All Categories</option>
-          <option value="Regular" <?= $filterCategory == 'Regular' ? 'selected' : '' ?>>Economy</option>
-          <option value="Luxury" <?= $filterCategory == 'Luxury' ? 'selected' : '' ?>>Luxury</option>
-        </select>
-        <input type="text" name="search" placeholder="Search by name..." id="search"
-          value="<?= htmlspecialchars($searchQuery) ?>">
-        <button type="submit">Filter</button>
-      </form>
-    </div>
-  </section>
 
   <!-- Cars Listing Section -->
   <section class="cars-listing">
@@ -183,20 +180,27 @@ $result = mysqli_query($conn, $query);
         <?php if (mysqli_num_rows($result) > 0): ?>
           <?php while ($vehicle = mysqli_fetch_assoc($result)): ?>
             <div class="car-card">
-              <!-- Display the image -->
-              <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>"
-                alt="<?= htmlspecialchars($vehicle['vehicle_title']) ?>" onerror="this.src='default-image.jpg';" />
+              <div class="Details">
+                <!-- Display the image -->
+                <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>"
+                  alt="<?= htmlspecialchars($vehicle['vehicle_title']) ?>" onerror="this.src='default-image.jpg';" />
 
-              <!-- Vehicle Title -->
-              <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
+                <div class="about-vehicle">
+                  <!-- Vehicle Title -->
+                  <h3><?= htmlspecialchars($vehicle['vehicle_title']) ?></h3>
 
-              <!-- Vehicle Details -->
-              <p>
-                Seats: <?= $vehicle['seating_capacity'] ?> |
-                Transmission: <?= $vehicle['fuel_type'] ?> |
-                Price: $<?= $vehicle['price_per_day'] ?>/day
-              </p>
-
+                  <!-- Vehicle Details -->
+                  <p>
+                    Seats: <?= $vehicle['seating_capacity'] ?> 
+                  </p>
+                  <p>
+                    Transmission: <?= $vehicle['fuel_type'] ?> 
+                  </p>
+                  <p>
+                    Price: Rs.<?= $vehicle['price_per_day'] ?>/day
+                  </p>
+                </div>
+              </div>
               <!-- View Details Button -->
               <button onclick="window.location.href='test.php?vhid=<?= $vehicle['id'] ?>'">
                 View Details

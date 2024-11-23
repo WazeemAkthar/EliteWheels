@@ -183,10 +183,11 @@ $result = $conn->query($sql);
             </thead>
             <tbody>
                 <?php
+                $counter = 1;
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>";
-                        echo "<td>" . $row['id'] . "</td>";
+                        echo "<td>" . $counter . "</td>";
                         echo "<td>" . htmlspecialchars($row['brand_name']) . "</td>";
                         echo "<td>" . $row['created_at'] . "</td>";
                         echo "<td>
@@ -194,9 +195,11 @@ $result = $conn->query($sql);
                             <a href='?delete=" . $row['id'] . "' class='btn delete' onclick=\"return confirm('Are you sure you want to delete this brand?');\">Delete</a>
                           </td>";
                         echo "</tr>";
+                        $counter++; // Increment the counter for the next row
                     }
                 } else {
                     echo "<tr><td colspan='4' style='text-align: center;'>No Brands Found</td></tr>";
+
                 }
                 ?>
             </tbody>

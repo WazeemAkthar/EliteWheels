@@ -74,10 +74,11 @@ if (!$result) {
             </thead>
             <tbody>
                 <?php
+                $counter = 1;
                 // Display fetched rental data
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
-                    echo "<td>" . $row['id'] . "</td>";
+                    echo "<td>" . $counter . "</td>";
                     echo "<td>" . htmlspecialchars($row['user_name']) . "</td>";
                     echo "<td>" . htmlspecialchars($row['vehicle_name']) . "</td>";
                     echo "<td>" . $row['rental_start'] . "</td>";
@@ -89,6 +90,7 @@ if (!$result) {
                     <button class='cancel-btn' onclick=\"updateRentalStatus(" . $row['id'] . ", 'cancelled')\">Cancel</button>
                 </td>";
                     echo "</tr>";
+                    $counter++; // Increment the counter for the next row
                 }
                 ?>
             </tbody>
