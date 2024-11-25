@@ -1,3 +1,9 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,44 +130,20 @@
         <li><a href="./RentCar.php">Rent</a></li>
         <li><a href="#ride">Ride</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="./login.html">login</a></li>
-        <li><a href="./Register.html">Register</a></li>
+        <?php if (!isset($_SESSION['user_id'])): ?>
+          <!-- Show these links if the user is NOT logged in -->
+          <li><a href="./login.html">Login</a></li>
+          <li><a href="./Register.html">Register</a></li>
+        <?php else: ?>
+          <!-- Show these links if the user is logged in -->
+          <li><a href="./profile.php">Profile</a></li>
+          <li><a href="../Backend/logout.php">Logout</a></li>
+        <?php endif; ?>
       </ul>
-      <!-- <div class="nav__btn">
-        <button class="btn">Get Started</button>
-      </div> -->
     </nav>
   </header>
   </div>
 
-  <!-- Login Section -->
-  <div id="loginSection" class="login-section hidden">
-    <form action="../Backend/login.php" id="loginForm" method="post">
-      <h2>Login</h2>
-      <input type="email" name="email" id="loginEmail" name="loginEmail" required />
-      <input type="password" id="loginPassword" name="loginPassword" required />
-      <button type="submit">Login</button>
-
-      <button type="button" id="closeLogin">Close</button>
-      <p style="color:#000">Don't have an account? <a href="#" id="goToRegister">Register</a></p>
-    </form>
-  </div>
-
-  <!-- Register Section -->
-  <div id="registerSection" class="register-section hidden">
-    <form action="../Backend/register.php" id="registerForm">
-      <h2>Register</h2>
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="email" name="email" placeholder="Email" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
-      <button type="submit">Register</button>
-
-      <button type="button" id="closeRegister">Close</button>
-      <p style="color:#000">Already have an account? <a href="#" id="goToLogin">Login</a></p>
-
-    </form>
-  </div>
 
   <script src="https://unpkg.com/scrollreveal"></script>
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
