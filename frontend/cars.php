@@ -191,16 +191,22 @@ $result = mysqli_query($conn, $query);
 
                   <!-- Vehicle Details -->
                   <p>
-                    Seats: <?= $vehicle['seating_capacity'] ?> 
+                    Vehicle Type: <?= $vehicle['car_type'] ?>
                   </p>
                   <p>
-                    Transmission: <?= $vehicle['fuel_type'] ?> 
+                    Seats: <?= $vehicle['seating_capacity'] ?>
+                  </p>
+                  <p>
+                    Transmission: <?= $vehicle['fuel_type'] ?>
                   </p>
                   <p>
                     Price: Rs.<?= $vehicle['price_per_day'] ?>/day
                   </p>
+
                 </div>
               </div>
+
+
               <!-- View Details Button -->
               <button onclick="window.location.href='test.php?vhid=<?= $vehicle['id'] ?>'">
                 View Details
