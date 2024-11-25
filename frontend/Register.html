@@ -29,9 +29,19 @@
     body {
       height: 100vh;
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
-      background: linear-gradient(to right, #295fb3 0%, #7a8eb0 100%);
+      background-image: url("./assets/images/Register.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      margin-right: 150px;
+    }
+
+    @media (max-width: 767px) {
+      body {
+        margin-right: 0px;
+      }
     }
 
     .container {
@@ -103,6 +113,7 @@
       border-radius: 5px;
       width: -webkit-fill-available;
       border: none !important;
+      margin-bottom: 15px;
     }
 
     button:hover {
