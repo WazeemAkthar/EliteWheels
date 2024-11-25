@@ -3,199 +3,132 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EliteWheels - Book a Car</title>
-    <link
-      rel="stylesheet"
-      href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css"
-    />
-    <link rel="stylesheet" href="./assets/css/booking.css" />
+    <title>Car Booking Success</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <style>
-    /* Booking Page Styles */
+    /* General Styles */
     body {
+      margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(
-        to bottom right,
-        #0d0d63,
-        #1c1c3d
-      ); /* Dark blue gradient background */
-      color: #fff;
+      background-color: #f4f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
 
-    .booking-form {
-      max-width: 500px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background: rgba(13, 13, 99, 0.8); /* Dark blue transparent overlay */
-      border-radius: 15px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .booking-form h2 {
+    /* Success Container */
+    .success-container {
       text-align: center;
-      color: #ffcd3c;
-      font-size: 2em;
-      margin-bottom: 1.5rem;
+      max-width: 1000px;
+      margin: 0 20px;
     }
 
-    .booking-form label {
-      font-size: 1em;
+    /* Success Message */
+    .success-message {
+      background-color: #2ecc71;
+      padding: 20px;
       color: #fff;
-    }
-
-    .booking-form input,
-    .booking-form select {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-    }
-
-    /* Gold Gradient Button */
-    .booking-form button {
-      width: 100%;
-      padding: 0.8rem;
-      margin-top: 1rem;
-      background: linear-gradient(45deg, #d4a514, #ffcd3c); /* Gold gradient */
-      color: #0d0d63;
-      font-size: 1.2em;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .booking-form button:hover {
-      background: linear-gradient(45deg, #ffcd3c, #d4a514);
-    }
-    #map {
-      width: 100%;
-      height: 400px;
-      border: 2px solid #ffcd3c;
       border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    #location-input {
-      width: 100%;
-      padding: 0.8rem;
-      margin: 0.5rem 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      color: #0d0d63;
+    .success-message h1 {
+      font-size: 2.5em;
     }
 
-    #current-location-btn {
-      padding: 0.8rem;
-      font-size: 1rem;
-      border: none;
-      background: linear-gradient(45deg, #d4a514, #ffcd3c); /* Gold gradient */
-      color: #0d0d63;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: background 0.3s;
+    .success-message p {
+      font-size: 1.1em;
+      margin-top: 10px;
     }
 
-    #current-location-btn:hover {
-      background: linear-gradient(45deg, #ffcd3c, #d4a514);
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Car Animation */
+    .car-animation {
+      margin-top: 50px;
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .car {
+      width: 150px;
+      height: 70px;
+      background-color: #e74c3c;
+      border-radius: 15px;
+      position: absolute;
+      bottom: 10px;
+      animation: drive 4s linear infinite;
+    }
+
+    @keyframes drive {
+      0% {
+        left: -150px;
+      }
+      50% {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      100% {
+        left: 100%;
+      }
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+      .success-message h1 {
+        font-size: 2em;
+      }
+
+      .success-message p {
+        font-size: 1em;
+      }
+
+      .car-animation {
+        height: 150px;
+      }
     }
   </style>
   <body>
-    <!-- Booking Form Section -->
-    <section class="booking-form">
-      <h2>Book Your Ride</h2>
-      <form action="booking_process.php" method="POST">
-        <label for="carType">Car Type</label>
-        <select id="carType" name="carType" required>
-          <option value="sedan">Sedan</option>
-          <option value="suv">SUV</option>
-          <option value="luxury">Luxury</option>
-        </select>
+    <div class="success-container">
+      <div class="success-message">
+        <h1>Booking Successful!</h1>
+        <p>
+          Your car is booked successfully. You will receive an email with all
+          the details.
+        </p>
+        <a href="index.php" class="back-button">Go to Homepage</a>
+      </div>
+      <div class="car-animation">
+        <div class="car"></div>
+      </div>
+    </div>
 
-        <label for="pickupDate">Pickup Date</label>
-        <input type="date" id="pickupDate" name="pickupDate" required />
-
-        <label for="returnDate">Return Date</label>
-        <input type="date" id="returnDate" name="returnDate" required />
-
-        <label for="pickupLocation">Pickup Location</label>
-        <input
-          type="text"
-          id="location-input"
-          placeholder="Choose your location"
-          readonly
-        />
-        <button type="button" id="current-location-btn">
-          Use Current Location
-        </button>
-
-        <div
-          id="map"
-          style="width: 100%; height: 400px; margin-top: 1rem"
-        ></div>
-
-        <button type="submit">Book Now</button>
-      </form>
-    </section>
-    <script src="./login.php"></script>
     <script>
-      // Initialize Mapbox
-      mapboxgl.accessToken = "YOUR_MAPBOX_ACCESS_TOKEN";
+      document.addEventListener("DOMContentLoaded", () => {
+        const car = document.querySelector(".car");
 
-      const map = new mapboxgl.Map({
-        container: "map", // Container ID
-        style: "mapbox://styles/mapbox/streets-v11", // Map style
-        center: [79.8612, 6.9271], // Default center position (e.g., Colombo, Sri Lanka)
-        zoom: 10,
+        // Add some delay before starting the animation
+        setTimeout(() => {
+          car.style.animationPlayState = "running";
+        }, 1000);
       });
-
-      // Add a draggable marker to the map
-      const marker = new mapboxgl.Marker({ draggable: true })
-        .setLngLat([79.8612, 6.9271])
-        .addTo(map);
-
-      // Update input field with marker position
-      function updateLocationInput(lng, lat) {
-        document.getElementById("location-input").value = `Lng: ${lng.toFixed(
-          6
-        )}, Lat: ${lat.toFixed(6)}`;
-      }
-
-      // Set initial input field value
-      updateLocationInput(79.8612, 6.9271);
-
-      // Event listener for marker drag end
-      marker.on("dragend", () => {
-        const lngLat = marker.getLngLat();
-        updateLocationInput(lngLat.lng, lngLat.lat);
-      });
-
-      // Get user's current location
-      document
-        .getElementById("current-location-btn")
-        .addEventListener("click", () => {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const userLocation = [
-                  position.coords.longitude,
-                  position.coords.latitude,
-                ];
-                map.setCenter(userLocation);
-                marker.setLngLat(userLocation);
-                updateLocationInput(userLocation[0], userLocation[1]);
-              },
-              () => {
-                alert("Unable to retrieve your location.");
-              }
-            );
-          } else {
-            alert("Geolocation is not supported by your browser.");
-          }
-        });
     </script>
   </body>
 </html>

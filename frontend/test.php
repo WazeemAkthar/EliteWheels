@@ -102,9 +102,9 @@ if (isset($_GET['vhid'])) {
     <div class="container">
         <!-- Carousel -->
         <div class="carousel" id="carousel">
-            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
-            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
-            <img src="<?='../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
+            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
+            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
+            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
         </div>
 
         <!-- Car Details -->
@@ -129,7 +129,13 @@ if (isset($_GET['vhid'])) {
                 <label for="message">Message:</label>
                 <textarea id="message" name="message"></textarea>
 
-                <button type="submit">Book Now</button>
+
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <button type="submit" onclick="window.location.href='login.html'">Login to Book</button>
+                <?php else: ?>
+                    <button type="submit"> Book Now </button>
+                <?php endif; ?>
+
             </form>
 
         </div>

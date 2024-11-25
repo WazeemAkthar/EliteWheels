@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         VALUES ('$user_id', '$car_id', '$user_name', '$vehicle_name', '$rental_start', '$rental_end', '$message')
     ";
     if (mysqli_query($conn, $insert_query)) {
-        echo "Booking successful!";
+        header("Location: ../frontend/Booking.html");
     } else {
         echo "Error: " . mysqli_error($conn);
     }
