@@ -100,7 +100,7 @@ if (!$result) {
         function updateRentalStatus(rentalId, status) {
             if (confirm("Are you sure you want to " + status + " this rental?")) {
                 const xhr = new XMLHttpRequest();
-                xhr.open("POST", "update-rental-status.php", true);
+                xhr.open("POST", "../../Backend/update-rental-status.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 xhr.onload = function () {
                     if (xhr.status === 200) {

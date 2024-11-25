@@ -47,6 +47,7 @@
         <i class="fas fa-chart-line"></i> Reports
       </button>
       <div class="panel">
+        <a href="contact_messages.php">Massages</a>
         <a href="reports.html">View Reports</a>
       </div>
 
@@ -57,6 +58,14 @@
       <div class="panel">
         <a href="#">Sub Feature 1</a>
         <a href="#">Sub Feature 2</a>
+
+      </div>
+
+      <button class="accordion">
+        <i class="fas fa-user"></i> Account
+      </button>
+      <div class="panel">
+        <a href="../../Backend/logout.php">Logout</a>
       </div>
     </nav>
   </aside>

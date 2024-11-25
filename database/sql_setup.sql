@@ -99,5 +99,14 @@ CREATE TABLE reviews (
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(id)
 );
 
+CREATE TABLE contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 
