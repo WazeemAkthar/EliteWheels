@@ -28,6 +28,12 @@ $sql_vehicles = "SELECT COUNT(*) AS vehicle_count FROM vehicles";
 $result_vehicles = $conn->query($sql_vehicles);
 $vehicle_count = $result_vehicles->fetch_assoc()['vehicle_count'];
 
+//fetch count of luxury vehicles
+$sql_vehicles = "SELECT COUNT(*) AS luxuryvehicle_count FROM vehicles WHERE car_type = 'Luxury'";
+$result_vehicles = $conn->query($sql_vehicles);
+$luxuryvehicle_count = $result_vehicles->fetch_assoc()['luxuryvehicle_count'];
+
+
 // Fetch count of users
 $sql_users = "SELECT COUNT(*) AS user_count FROM users";
 $result_users = $conn->query($sql_users);
@@ -88,7 +94,7 @@ $brand_count = $result_brands->fetch_assoc()['brand_count'];
         <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>
       <div class="card gold">
-        <h3>1</h3>
+        <h3><?php echo $luxuryvehicle_count; ?></h3>
         <p>Luxury Vehicles</p>
         <!-- <a href="#">Full Detail &rarr;</a> -->
       </div>

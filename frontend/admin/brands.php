@@ -141,6 +141,9 @@ $result = $conn->query($sql);
             background-color: #e74c3c;
             color: white;
         }
+        a{
+            text-decoration: none;
+        }
     </style>
     <script>
         function editBrand(id, name) {

@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             VALUES ('$vehicle_title', '$brand', '$overview', '$price_per_day', '$fuel_type', '$model_year', '$seating_capacity', '$car_type', '$image1', '$image2', '$image3', '$image4', '$image5', '$accessories')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Vehicle posted successfully!";
+        header("Location: ../frontend/admin/manage-cars.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

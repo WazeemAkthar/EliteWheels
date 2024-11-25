@@ -116,25 +116,26 @@ $result = mysqli_query($conn, $query);
     text-align: center;
     padding: 1rem;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: column;
     justify-content: space-between;
   }
 
   .car-card img {
-    width: 30%;
+    width: 100%;
     height: 240px;
     object-fit: cover;
   }
 
   .car-card h3 {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin: 0.5rem 0;
   }
 
   .car-card p {
     color: #555;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .car-card button {
@@ -161,12 +162,6 @@ $result = mysqli_query($conn, $query);
     flex-direction: column;
     align-items: flex-start;
     height: 100%;
-  }
-
-  .Details {
-    display: flex;
-    gap: 40px;
-    width: 100%;
   }
 </style>
 
