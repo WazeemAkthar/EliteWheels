@@ -6,7 +6,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['loginEmail'];
     $password = $_POST['loginPassword'];
 
-    // First, fetch the user details including role_id
     $stmt = $conn->prepare("SELECT users.id, users.name, users.password, users.role_id, roles.role_name 
                             FROM users 
                             JOIN roles ON users.role_id = roles.id 
@@ -24,21 +23,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $id;
             $_SESSION['name'] = $name;
             $_SESSION['role_id'] = $role_id;
-            $_SESSION['role_name'] = $role_name; // Store the role name in the session
+            $_SESSION['role_name'] = $role_name;
 
             // Redirect based on the role
-            if ($role_id == 3) { // Assuming 3 is Admin
+            if ($role_id == 3) { // Admin
                 header("Location: ../frontend/admin/dashboard.php");
-            } elseif ($role_id == 2) { // Assuming 2 is Staff
+            } elseif ($role_id == 2) { // Staff
                 header("Location: ../frontend/staff/staff-dashboard.html");
             } else {
                 header("Location: ../frontend/index.php");
             }
+            exit;
         } else {
-            echo "Invalid password.";
+            $_SESSION['error'] = "Invalid password.";
+            header("Location: ../frontend/login.php");
+            exit;
         }
     } else {
-        echo "No user found with that email.";
+        $_SESSION['error'] = "No user found with that email.";
+        header("Location: ../frontend/login.php");
+        exit;
     }
 
     $stmt->close();
