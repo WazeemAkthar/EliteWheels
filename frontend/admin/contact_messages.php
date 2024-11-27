@@ -99,16 +99,18 @@ $result = $conn->query($sql);
                 </thead>
                 <tbody>
                     <?php
+                    $counter = 1;
                     if ($result->num_rows > 0) {
                         // Output each row
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
-                            echo "<td>" . $row['id'] . "</td>";
+                            echo "<td>" . $counter . "</td>";
                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['phone_number']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['message']) . "</td>";
                             echo "<td>" . $row['created_at'] . "</td>";
                             echo "</tr>";
+                            $counter++; // Increment the counter for the next row
                         }
                     } else {
                         echo "<tr><td colspan='5'>No messages found.</td></tr>";

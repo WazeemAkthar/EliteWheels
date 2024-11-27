@@ -165,19 +165,22 @@ function getRoleColor($role)
                     <th>Role</th>
                 </tr>
                 <?php
+                $counter = 1;
                 if ($result->num_rows > 0) {
                     // Output data of each row
                     while ($row = $result->fetch_assoc()) {
                         $roleColor = getRoleColor($row['role_name']);
                         echo "<tr>";
-                        echo "<td>{$row['id']}</td>";
+                        echo "<td>" . $counter . "</td>";
                         echo "<td>{$row['name']}</td>";
                         echo "<td>{$row['email']}</td>";
                         echo "<td class='role' style='background-color:{$roleColor}; color: white;'>{$row['role_name']}</td>";
                         echo "</tr>";
+                        $counter++; // Increment the counter for the next row
                     }
                 } else {
                     echo "<tr><td colspan='4' class='no-data'>No users found</td></tr>";
+
                 }
                 ?>
             </table>
