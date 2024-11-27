@@ -1,10 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['role_id'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
+    header("Location: ../login.php");
     exit();
 }
-
 // Define role IDs for staff and admin
 $staffRoleId = 2; // Example: 2 = Staff
 $adminRoleId = 3; // Example: 1 = Admin

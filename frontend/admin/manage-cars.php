@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
+    header("Location: ../login.php");
+    exit();
+}
+
 // Database connection
 $conn = mysqli_connect("localhost", "root", "", "car_rental_system");
 if (!$conn) {

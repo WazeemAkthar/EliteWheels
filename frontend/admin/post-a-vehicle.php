@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
+    header("Location: ../login.php");
+    exit();
+}
+
 // Fetch brands from the database
 $conn = new mysqli('localhost', 'root', '', 'car_rental_system'); // Adjust credentials
 $result = $conn->query("SELECT id, brand_name FROM brands");

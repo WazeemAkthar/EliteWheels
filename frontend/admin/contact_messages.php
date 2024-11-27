@@ -2,7 +2,7 @@
 // Start session and check if admin is logged in
 session_start();
 if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) { // Admin role_id is assumed to be 3
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit();
 }
 
