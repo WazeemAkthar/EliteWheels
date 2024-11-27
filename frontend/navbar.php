@@ -132,7 +132,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <li><a href="./ContactUs.php">Contact</a></li>
         <?php if (!isset($_SESSION['user_id'])): ?>
           <!-- Show these links if the user is NOT logged in -->
-          <li><a href="./login.html">Login</a></li>
+          <li><a href="./login.php">Login</a></li>
           <li><a href="./Register.html">Register</a></li>
         <?php else: ?>
           <!-- Show these links if the user is logged in -->

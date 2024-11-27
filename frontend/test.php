@@ -255,7 +255,7 @@ if (isset($_GET['vhid'])) {
                     <textarea id="message" name="message"></textarea>
 
                     <?php if (!isset($_SESSION['user_id'])): ?>
-                        <button type="submit" onclick="window.location.href='login.html'">Login to Book</button>
+                        <button type="submit" onclick="window.location.href='login.php'">Login to Book</button>
                     <?php else: ?>
                         <button type="submit">Book Now</button>
                     <?php endif; ?>

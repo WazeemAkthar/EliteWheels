@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
-    header("Location: ../login.html");
+    header("Location: ../login.php");
     exit();
 }
 

@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("sssi", $name, $email, $password, $role);
 
     if ($stmt->execute()) {
-        header("Location: ../frontend/login.html");
+        header("Location: ../frontend/login.php");
     } else {
         echo "Error: " . $stmt->error;
     }
