@@ -108,5 +108,32 @@ CREATE TABLE contact_messages (
 );
 
 
+CREATE TABLE luxury_cars (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    car_name VARCHAR(255) NOT NULL,
+    location VARCHAR(255) NOT NULL,
+    body_type VARCHAR(100) NOT NULL,
+    fuel_type VARCHAR(100) NOT NULL,
+    brand VARCHAR(100) NOT NULL,
+    price_per_day DECIMAL(10, 2) NOT NULL,
+    model_year YEAR NOT NULL,
+    seating_capacity INT NOT NULL,
+    image1 VARCHAR(255) NOT NULL,
+    image2 VARCHAR(255) NOT NULL,
+    image3 VARCHAR(255) NOT NULL,
+    image4 VARCHAR(255) NOT NULL,
+    air_conditioner TINYINT(1) DEFAULT NULL,
+    power_door_locks TINYINT(1) DEFAULT NULL,
+    abs TINYINT(1) DEFAULT NULL,
+    brake_assist TINYINT(1) DEFAULT NULL,
+    power_steering TINYINT(1) DEFAULT NULL,
+    passenger_airbag TINYINT(1) DEFAULT NULL,
+    driver_airbag TINYINT(1) DEFAULT NULL,
+    leather_seats TINYINT(1) DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
 
 
