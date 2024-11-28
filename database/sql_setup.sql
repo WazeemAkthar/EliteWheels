@@ -18,8 +18,7 @@ CREATE TABLE users (
 /* Insert roles */
 INSERT INTO roles (role_name) VALUES ('user'), ('staff'), ('admin');
 
-/* Primary Admin */
-INSERT INTO users (name, email, password, role_id) VALUES ('Sahee', 'Sahee@gmail.com', PASSWORD('1234'), 3);
+
 
 /* brands */
 CREATE TABLE brands (
