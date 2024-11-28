@@ -54,7 +54,7 @@ CREATE TABLE vehicles (
     power_steering TINYINT(1) DEFAULT NULL,
     passenger_airbag TINYINT(1) DEFAULT NULL,
     driver_airbag TINYINT(1) DEFAULT NULL,
-    leather_seats TINYINT(1) DEFAULT NULL;
+    leather_seats TINYINT(1) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
