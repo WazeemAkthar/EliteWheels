@@ -141,12 +141,55 @@ $result = $conn->query("SELECT id, brand_name FROM brands");
             flex-direction: column;
         }
     }
+
+    .message-container {
+        margin-bottom: 20px;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    .alert-success {
+        background-color: #dff0d8;
+        color: #3c763d;
+        border: 1px solid #d6e9c6;
+    }
+
+    .alert-danger {
+        background-color: #f2dede;
+        color: #a94442;
+        border: 1px solid #ebccd1;
+    }
 </style>
 
 <body>
     <!-- Sidebar -->
     <?php include('./sidebar.php'); ?>
     <div class="container">
+        <div class="message-container">
+            <?php if (!empty($success_message)): ?>
+                <div class="alert alert-success">
+                    <strong>SUCCESS:</strong> <?php echo $success_message; ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($error_message)): ?>
+                <div class="alert alert-danger">
+                    <strong>ERROR:</strong> <?php echo $error_message; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Reset messages after displaying -->
+        <?php
+        unset($_SESSION['success_message']);
+        unset($_SESSION['error_message']);
+        ?>
+
         <h1>Post A Vehicle</h1>
         <form action="../../Backend/post_vehicle.php" method="POST" enctype="multipart/form-data">
             <div class="basic-info">
@@ -161,6 +204,7 @@ $result = $conn->query("SELECT id, brand_name FROM brands");
                         <option value="<?php echo $row['brand_name']; ?>"><?php echo $row['brand_name']; ?></option>
                     <?php endwhile; ?>
                 </select>
+
                 <label for="overview">Vehicle Overview *</label>
                 <textarea id="overview" name="overview" required></textarea>
 
@@ -188,10 +232,23 @@ $result = $conn->query("SELECT id, brand_name FROM brands");
                 </select>
             </div>
 
+            <h3>Car Location</h3>
+            <div class="address-section">
+                <label for="street">Street Address *</label>
+                <input type="text" id="street" name="street" required />
+
+                <label for="city">City *</label>
+                <input type="text" id="city" name="city" required />
+
+                <label for="state">State *</label>
+                <input type="text" id="state" name="state" required />
+
+                <label for="zip">ZIP Code *</label>
+                <input type="text" id="zip" name="zip" required />
+            </div>
 
             <h3>Upload Images</h3>
             <div class="upload-images">
-
                 <label for="image1">Image 1 *</label>
                 <input type="file" id="image1" name="image1" required />
 
@@ -210,27 +267,21 @@ $result = $conn->query("SELECT id, brand_name FROM brands");
 
             <h3>Accessories</h3>
             <div class="checkbox-group">
-                <label><input type="checkbox" name="accessories[]" value="Air Conditioner" />
-                    Air Conditioner</label>
-                <label><input type="checkbox" name="accessories[]" value="Power Door Locks" />
-                    Power Door Locks</label>
-                <label><input type="checkbox" name="accessories[]" value="AntiLock Braking System" />
-                    AntiLock Braking System</label>
-                <label><input type="checkbox" name="accessories[]" value="Brake Assist" />
-                    Brake Assist</label>
-                <label><input type="checkbox" name="accessories[]" value="Power Steering" />
-                    Power Steering</label>
-                <label><input type="checkbox" name="accessories[]" value="Passenger Airbag" />
-                    Passenger Airbag</label>
-                <label><input type="checkbox" name="accessories[]" value="Driver Airbag" />
-                    Driver Airbag</label>
-                <label><input type="checkbox" name="accessories[]" value="Leather Seats" />
-                    Leather Seats</label>
+                <label><input type="checkbox" name="accessories[air_conditioner]" value="Air Conditioner" /> Air Conditioner</label>
+                <label><input type="checkbox" name="accessories[power_door_locks]" value="Power Door Locks" /> Power Door Locks</label>
+                <label><input type="checkbox" name="accessories[abs]" value="AntiLock Braking System" /> AntiLock Braking
+                    System</label>
+                <label><input type="checkbox" name="accessories[brake_assist]" value="Brake Assist" /> Brake Assist</label>
+                <label><input type="checkbox" name="accessories[power_steering]" value="Power Steering" /> Power Steering</label>
+                <label><input type="checkbox" name="accessories[passenger_airbag]" value="Passenger Airbag" /> Passenger Airbag</label>
+                <label><input type="checkbox" name="accessories[driver_airbag]" value="Driver Airbag" /> Driver Airbag</label>
+                <label><input type="checkbox" name="accessories[leather_seats]" value="Leather Seats" /> Leather Seats</label>
             </div>
 
             <button type="submit" class="save-btn">Save Changes</button>
             <button type="reset" class="cancel-btn">Cancel</button>
         </form>
+
     </div>
 </body>
 
