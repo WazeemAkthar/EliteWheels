@@ -173,7 +173,7 @@ $conn->close();
         <div class="dashboard-container">
             <div id="form1" class="form-container">
                 <h2>Create a New Account</h2>
-                <form action="../Backend/create_account.php" method="post">
+                <form action="../../Backend/create_account.php" method="post">
                     <div class="form-group">
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name" required>
@@ -266,13 +266,13 @@ $conn->close();
 
         function editUser(id) {
             // Redirect to an edit page with the user ID
-            window.location.href = '../Backend/edit_user.php?id=' + id;
+            window.location.href = '../../Backend/edit_user.php?id=' + id;
         }
 
         function deleteUser(id) {
             if (confirm('Are you sure you want to delete this user?')) {
                 // Send a request to delete the user
-                window.location.href = '../Backend/delete_user.php?id=' + id;
+                window.location.href = '../../Backend/delete_user.php?id=' + id;
             }
         }
     </script>

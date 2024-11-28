@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3) {
-    header("Location: ../login.php");
+    header("Location: ../Pages/login.html");
     exit();
 }
 
@@ -22,7 +22,7 @@ if (isset($_GET['id'])) {
         $stmtUser->bind_param("i", $id);
 
         if ($stmtUser->execute()) {
-            header("Location: ./frontend/admin/ManageAccount.php");
+            header("Location: ../frontend/admin/ManageAccount.php");
         } else {
             echo "Error deleting user: " . $conn->error;
         }
