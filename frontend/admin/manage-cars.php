@@ -236,7 +236,7 @@ $vehiclesResult = mysqli_query($conn, $vehiclesQuery);
                         <td><?= $vehicle['fuel_type'] ?></td>
                         <td>
                             <button class="action-btn edit-btn"
-                                onclick="editVehicle(<?= $vehicle['id'] ?>, '<?= $vehicle['vehicle_title'] ?>', '<?= $vehicle['brand'] ?>')">Edit</button>
+                                onclick="editVehicle(<?php echo $vehicle['id']; ?>)">Edit</button>
                             <a style="text-decoration: none;" href="?delete=<?= $vehicle['id'] ?>"
                                 class="action-btn delete-btn">Delete</a>
                         </td>
@@ -264,12 +264,9 @@ $vehiclesResult = mysqli_query($conn, $vehiclesQuery);
             modal.style.display = 'none';
         });
 
-        function editVehicle(id, title, brand) {
-            formTitle.textContent = 'Edit Vehicle';
-            vehicleIdInput.value = id;
-            document.getElementById('vehicleTitle').value = title;
-            document.getElementById('brand').value = brand;
-            modal.style.display = 'flex';
+        function editVehicle(vehicleId) {
+            // Redirect to the edit page with the vehicle ID in the query string
+            window.location.href = 'edit-vehicle.php?id=' + vehicleId;
         }
     </script>
 </body>

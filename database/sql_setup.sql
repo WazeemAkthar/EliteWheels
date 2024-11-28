@@ -40,7 +40,9 @@ CREATE TABLE vehicles (
     model_year INT NOT NULL,
     seating_capacity INT NOT NULL,
     car_type ENUM('Regular', 'Luxury') NOT NULL,
-    address TEXT NOT NULL;
+    address TEXT NOT NULL,
+    latitude DECIMAL(10, 6),
+    longitude DECIMAL(10, 6),
     image1 VARCHAR(255) NOT NULL,
     image2 VARCHAR(255) NOT NULL,
     image3 VARCHAR(255) NOT NULL,
