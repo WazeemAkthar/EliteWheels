@@ -39,12 +39,20 @@ CREATE TABLE vehicles (
     model_year INT NOT NULL,
     seating_capacity INT NOT NULL,
     car_type ENUM('Regular', 'Luxury') NOT NULL,
+    address TEXT NOT NULL;
     image1 VARCHAR(255) NOT NULL,
     image2 VARCHAR(255) NOT NULL,
     image3 VARCHAR(255) NOT NULL,
     image4 VARCHAR(255),
     image5 VARCHAR(255),
-    accessories TEXT,
+    air_conditioner TINYINT(1) DEFAULT NULL,
+    power_door_locks TINYINT(1) DEFAULT NULL,
+    abs TINYINT(1) DEFAULT NULL,
+    brake_assist TINYINT(1) DEFAULT NULL,
+    power_steering TINYINT(1) DEFAULT NULL,
+    passenger_airbag TINYINT(1) DEFAULT NULL,
+    driver_airbag TINYINT(1) DEFAULT NULL,
+    leather_seats TINYINT(1) DEFAULT NULL;
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
