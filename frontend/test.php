@@ -23,6 +23,10 @@ if (isset($_GET['vhid'])) {
     echo "No vehicle selected.";
     exit;
 }
+
+// Google Maps integration (latitude and longitude display)
+$latitude = isset($vehicle['latitude']) ? $vehicle['latitude'] : 0;
+$longitude = isset($vehicle['longitude']) ? $vehicle['longitude'] : 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +35,8 @@ if (isset($_GET['vhid'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book <?= htmlspecialchars($vehicle['vehicle_title']) ?></title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBzSkKnwBl3zqRDhFF3AoO62D57I0CUG5w&callback=initMap"
+        async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -46,6 +52,159 @@ if (isset($_GET['vhid'])) {
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #map {
+            height: 400px;
+            /* Adjust the height based on the screen size */
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            #map {
+                height: 300px;
+                /* Smaller height for mobile screens */
+            }
+        }
+
+        /* Car Details Section */
+        .car-details {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 1rem;
+        }
+
+        .gallery {
+            flex: 1;
+        }
+
+        #current-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .thumbnails img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: border 0.3s;
+        }
+
+        .thumbnails img:hover {
+            border-color: #f4b400;
+        }
+
+        .car-info {
+            flex: 1;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 1rem;
+            align-self: start;
+        }
+
+        .car-info h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .car-info .price {
+            font-size: 1.5rem;
+            color: #f4b400;
+            margin-bottom: 0.5rem;
+        }
+
+        .car-info .location {
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: #555;
+        }
+
+        .car-info .specs {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+
+        .car-info .specs li {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .contact-btn:hover {
+            background: #f4b400;
+        }
+
+        /* Contact Form Section */
+        .contact-form {
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .contact-form h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .contact-form button {
+            padding: 0.8rem 1.5rem;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .contact-form button:hover {
+            background: #f4b400;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .car-details {
+                flex-direction: column;
+            }
         }
 
         .carousel {
@@ -221,51 +380,66 @@ if (isset($_GET['vhid'])) {
     <?php include('./navbar.php'); ?>
 
     <div class="container">
-        <!-- Carousel -->
-        <div class="carousel" id="carousel">
-            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>" alt="Car Image 1">
-            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>" alt="Car Image 2">
-            <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>" alt="Car Image 3">
-        </div>
 
-        <!-- Car Details -->
-        <div class="details">
-            <h1><?= htmlspecialchars($vehicle['vehicle_title']) ?></h1>
-            <h2>Rs.<?= htmlspecialchars($vehicle['price_per_day']) ?>/day</h2>
-            <p><strong>Fuel Type:</strong> <?= htmlspecialchars($vehicle['fuel_type']) ?></p>
-            <p><strong>Seats:</strong> <?= htmlspecialchars($vehicle['seating_capacity']) ?></p>
-            <p><strong>Registration Year:</strong> <?= htmlspecialchars($vehicle['model_year']) ?></p>
-        </div>
+        <section class="car-details">
+            <div class="gallery">
+                <img id="current-image" src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image1']) ?>"
+                    alt="Car Image" />
+                <div class="thumbnails">
+                    <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>" alt="Car Thumbnail"
+                        onclick="changeImage('<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image2']) ?>')" />
+                    <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>" alt="Car Thumbnail"
+                        onclick="changeImage('<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image3']) ?>')" />
+                    <img src="<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image4']) ?>" alt="Car Thumbnail"
+                        onclick="changeImage('<?= '../Backend/uploads/' . htmlspecialchars($vehicle['image4']) ?>')" />
+                </div>
+            </div>
+            <div class="car-info">
+                <h1><?= htmlspecialchars($vehicle['vehicle_title']) ?></h1>
+                <p class="price">Price: Rs.<?= htmlspecialchars($vehicle['price_per_day']) ?>/day</p>
+                <p class="location">Location: Los Angeles, USA</p>
+                <ul class="specs">
+                    <li><strong>Fuel Type:</strong> <?= htmlspecialchars($vehicle['fuel_type']) ?></li>
+                    <li><strong>Seats:</strong> <?= htmlspecialchars($vehicle['seating_capacity']) ?></li>
+                    <li>Registration Year:</strong> <?= htmlspecialchars($vehicle['model_year']) ?></li>
+                </ul>
+                <button class="contact-btn" onclick="">Ask a Question</button>
+            </div>
+        </section>
+        <div id="map"></div>
 
         <!-- Booking Form -->
         <!-- <div class="book-section"> -->
-            <div class="booking-form">
-                <form action="../Backend/process-booking.php" method="POST">
-                    <input type="hidden" name="car_id" value="<?php echo $vehicle['id']; ?>">
+        <div class="booking-form">
+            <form action="../Backend/process-booking.php" method="POST">
+                <input type="hidden" name="car_id" value="<?php echo $vehicle['id']; ?>">
 
-                    <h2>Book Your Car</h2>
+                <h2>Book Your Car</h2>
 
-                    <label for="start_date">Start Date:</label>
-                    <input type="date" id="start_date" name="start_date" required>
+                <label for="start_date">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" required>
 
-                    <label for="end_date">End Date:</label>
-                    <input type="date" id="end_date" name="end_date" required>
+                <label for="end_date">End Date:</label>
+                <input type="date" id="end_date" name="end_date" required>
 
-                    <label for="message">Message:</label>
-                    <textarea id="message" name="message"></textarea>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message"></textarea>
 
-                    <?php if (!isset($_SESSION['user_id'])): ?>
-                        <button type="submit" onclick="window.location.href='login.php'">Login to Book</button>
-                    <?php else: ?>
-                        <button type="submit">Book Now</button>
-                    <?php endif; ?>
+                <?php if (!isset($_SESSION['user_id'])): ?>
+                    <button type="submit" onclick="window.location.href='login.php'">Login to Book</button>
+                <?php else: ?>
+                    <button type="submit">Book Now</button>
+                <?php endif; ?>
 
-                </form>
-            </div>
+            </form>
+        </div>
         <!-- </div> -->
     </div>
     <?php include('./footer.php'); ?>
     <script>
+        function changeImage(imageSrc) {
+            document.getElementById("current-image").src = imageSrc;
+        }
         // Carousel functionality
         const carousel = document.getElementById('carousel');
         const images = carousel.getElementsByTagName('img');
@@ -294,6 +468,22 @@ if (isset($_GET['vhid'])) {
                 window.location.href = 'thank-you.php';
             }
         });
+
+        function initMap() {
+            const latitude = <?php echo $latitude; ?>;
+            const longitude = <?php echo $longitude; ?>;
+
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: latitude, lng: longitude },
+                zoom: 12, // Adjust zoom level
+            });
+
+            const marker = new google.maps.Marker({
+                position: { lat: latitude, lng: longitude },
+                map: map,
+                title: "<?php echo $vehicle['vehicle_title']; ?>"
+            });
+        }
     </script>
 </body>
 
