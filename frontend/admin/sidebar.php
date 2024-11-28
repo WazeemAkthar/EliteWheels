@@ -48,7 +48,7 @@
       </button>
       <div class="panel">
         <a href="contact_messages.php">Massages</a>
-        <a href="reports.html">View Reports</a>
+        <!-- <a href="reports.html">View Reports</a> -->
       </div>
 
       <!-- Gold Gradient Button with Sub-Buttons -->
@@ -57,7 +57,7 @@
       </button>
       <div class="panel">
         <a href="luxury-cars.php">Mange Luxury Cars</a>
-        <a href="#">Sub Feature 2</a>
+        <!-- <a href="#">Sub Feature 2</a> -->
 
       </div>
 
